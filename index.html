@@ -2,22 +2,43 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Bayraktar Roleplay - Sunucu Kuralları</title>
+<title>Bayraktar Roleplay</title>
 
 <style>
+
 body{
-font-family: Arial;
+margin:0;
+font-family:Arial;
 background:#0f172a;
 color:white;
-margin:0;
 }
 
 header{
 background:#111827;
 padding:20px;
 text-align:center;
-font-size:28px;
+font-size:30px;
 font-weight:bold;
+}
+
+nav{
+background:#1f2937;
+padding:10px;
+text-align:center;
+}
+
+nav button{
+margin:5px;
+padding:10px 20px;
+border:none;
+border-radius:8px;
+background:#2563eb;
+color:white;
+cursor:pointer;
+}
+
+nav button:hover{
+background:#1d4ed8;
 }
 
 .container{
@@ -28,23 +49,45 @@ padding:30px;
 
 .rule{
 background:#1e293b;
-padding:20px;
-margin-bottom:15px;
+padding:15px;
+margin-bottom:10px;
 border-radius:10px;
 }
 
-.rule h2{
-margin:0;
-color:#38bdf8;
+.discord{
+display:inline-block;
+margin-top:20px;
+padding:12px 25px;
+background:#5865F2;
+border-radius:10px;
+color:white;
+text-decoration:none;
+font-weight:bold;
 }
 
 footer{
 text-align:center;
 padding:20px;
 background:#111827;
-margin-top:30px;
+margin-top:40px;
 }
+
 </style>
+
+<script>
+
+function showPage(page){
+
+document.getElementById("rules").style.display="none"
+document.getElementById("police").style.display="none"
+document.getElementById("crime").style.display="none"
+document.getElementById("ban").style.display="none"
+
+document.getElementById(page).style.display="block"
+
+}
+
+</script>
 
 </head>
 
@@ -54,31 +97,72 @@ margin-top:30px;
 Bayraktar Roleplay
 </header>
 
+<nav>
+<button onclick="showPage('rules')">RP Kuralları</button>
+<button onclick="showPage('police')">Polis Kuralları</button>
+<button onclick="showPage('crime')">Suç Kuralları</button>
+<button onclick="showPage('ban')">Ban Kuralları</button>
+</nav>
+
 <div class="container">
 
-<div class="rule">
-<h2>1. Saygı</h2>
-<p>Tüm oyuncular birbirine saygılı davranmak zorundadır.</p>
+<div id="rules">
+
+<h2>RP Kuralları</h2>
+
+<div class="rule">1. Saygısızlık yasaktır.</div>
+<div class="rule">2. Fail RP yasaktır.</div>
+<div class="rule">3. Meta Gaming yasaktır.</div>
+<div class="rule">4. Power Gaming yasaktır.</div>
+<div class="rule">5. Random Deathmatch yasaktır.</div>
+<div class="rule">6. Value of Life kuralına uyulmalıdır.</div>
+<div class="rule">7. Combat Log yasaktır.</div>
+<div class="rule">8. Hile kullanımı yasaktır.</div>
+<div class="rule">9. OOC kavga yasaktır.</div>
+<div class="rule">10. Toxic davranış yasaktır.</div>
+<div class="rule">11. Sunucu açıklarını kullanmak yasaktır.</div>
+<div class="rule">12. Karakter dışı konuşmak yasaktır.</div>
+<div class="rule">13. Troll davranışlar yasaktır.</div>
+<div class="rule">14. RP bozmak yasaktır.</div>
+<div class="rule">15. Yetkili kararları geçerlidir.</div>
+
+<a class="discord" href="https://discord.gg/discordlinkin" target="_blank">
+Discord'a Katıl
+</a>
+
 </div>
 
-<div class="rule">
-<h2>2. Fail RP Yasak</h2>
-<p>Gerçek hayatta yapılmayacak hareketleri RP içinde yapmak yasaktır.</p>
+<div id="police" style="display:none">
+
+<h2>Polis Kuralları</h2>
+
+<div class="rule">Polisler gereksiz güç kullanamaz.</div>
+<div class="rule">Sebepsiz arama yapmak yasaktır.</div>
+<div class="rule">Tüm RP süreçleri düzgün yapılmalıdır.</div>
+<div class="rule">Emir komuta zinciri geçerlidir.</div>
+
 </div>
 
-<div class="rule">
-<h2>3. Meta Gaming Yasak</h2>
-<p>Oyun dışı bilgileri oyun içinde kullanmak yasaktır.</p>
+<div id="crime" style="display:none">
+
+<h2>Suç Kuralları</h2>
+
+<div class="rule">Banka soygunu kurallara uygun yapılmalıdır.</div>
+<div class="rule">Gereksiz adam öldürme yasaktır.</div>
+<div class="rule">Soygun RP ile yapılmalıdır.</div>
+<div class="rule">Polis olmadan büyük soygun yapılamaz.</div>
+
 </div>
 
-<div class="rule">
-<h2>4. Power Gaming Yasak</h2>
-<p>Gerçekçi olmayan güç kullanımı yasaktır.</p>
-</div>
+<div id="ban" style="display:none">
 
-<div class="rule">
-<h2>5. Hile Yasak</h2>
-<p>Her türlü hile ve exploit kullanımı yasaktır.</p>
+<h2>Ban Kuralları</h2>
+
+<div class="rule">Hile kullananlar kalıcı ban alır.</div>
+<div class="rule">Ağır hakaret ban sebebidir.</div>
+<div class="rule">Sunucu açıklarını kullananlar banlanır.</div>
+<div class="rule">Yetkiliye hakaret ban sebebidir.</div>
+
 </div>
 
 </div>

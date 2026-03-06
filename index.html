@@ -9,22 +9,34 @@
 body{
 margin:0;
 font-family:Arial;
-background:#0f172a;
+background:linear-gradient(135deg,#0f172a,#020617);
 color:white;
 }
 
 header{
-background:#111827;
-padding:20px;
 text-align:center;
-font-size:30px;
+padding:40px;
+animation:fade 2s;
+}
+
+.logo{
+font-size:40px;
 font-weight:bold;
+color:#38bdf8;
+}
+
+.onlineBox{
+background:#1e293b;
+padding:15px;
+border-radius:10px;
+display:inline-block;
+margin-top:10px;
 }
 
 nav{
-background:#1f2937;
-padding:10px;
 text-align:center;
+background:#111827;
+padding:15px;
 }
 
 nav button{
@@ -72,6 +84,11 @@ background:#111827;
 margin-top:40px;
 }
 
+@keyframes fade{
+from{opacity:0; transform:translateY(-20px);}
+to{opacity:1;}
+}
+
 </style>
 
 <script>
@@ -87,14 +104,42 @@ document.getElementById(page).style.display="block"
 
 }
 
+async function getPlayers(){
+
+try{
+
+const response = await fetch("https://servers-frontend.fivem.net/api/servers/single/YOUR_SERVER_ID")
+const data = await response.json()
+
+document.getElementById("online").innerText =
+data.Data.clients + " / " + data.Data.sv_maxclients
+
+}catch{
+
+document.getElementById("online").innerText = "Sunucu bulunamadı"
+
+}
+
+}
+
+setInterval(getPlayers,5000)
+
 </script>
 
 </head>
 
-<body>
+<body onload="getPlayers()">
 
 <header>
+
+<div class="logo">
 Bayraktar Roleplay
+</div>
+
+<div class="onlineBox">
+Online Oyuncu: <span id="online">Yükleniyor...</span>
+</div>
+
 </header>
 
 <nav>
@@ -121,12 +166,12 @@ Bayraktar Roleplay
 <div class="rule">9. OOC kavga yasaktır.</div>
 <div class="rule">10. Toxic davranış yasaktır.</div>
 <div class="rule">11. Sunucu açıklarını kullanmak yasaktır.</div>
-<div class="rule">12. Karakter dışı konuşmak yasaktır.</div>
-<div class="rule">13. Troll davranışlar yasaktır.</div>
-<div class="rule">14. RP bozmak yasaktır.</div>
+<div class="rule">12. Troll davranış yasaktır.</div>
+<div class="rule">13. RP bozmak yasaktır.</div>
+<div class="rule">14. Karakter dışı bilgi kullanmak yasaktır.</div>
 <div class="rule">15. Yetkili kararları geçerlidir.</div>
 
-<a class="discord" href="discord.gg/bayraktarrp" target="_blank">
+<a class="discord" href="https://discord.gg/discordlink" target="_blank">
 Discord'a Katıl
 </a>
 
@@ -136,10 +181,10 @@ Discord'a Katıl
 
 <h2>Polis Kuralları</h2>
 
-<div class="rule">Polisler gereksiz güç kullanamaz.</div>
-<div class="rule">Sebepsiz arama yapmak yasaktır.</div>
-<div class="rule">Tüm RP süreçleri düzgün yapılmalıdır.</div>
+<div class="rule">Polisler sebepsiz yere ateş açamaz.</div>
 <div class="rule">Emir komuta zinciri geçerlidir.</div>
+<div class="rule">Gereksiz güç kullanımı yasaktır.</div>
+<div class="rule">Tüm işlemler RP ile yapılmalıdır.</div>
 
 </div>
 
@@ -147,10 +192,10 @@ Discord'a Katıl
 
 <h2>Suç Kuralları</h2>
 
-<div class="rule">Banka soygunu kurallara uygun yapılmalıdır.</div>
-<div class="rule">Gereksiz adam öldürme yasaktır.</div>
-<div class="rule">Soygun RP ile yapılmalıdır.</div>
+<div class="rule">Soygunlar RP ile yapılmalıdır.</div>
 <div class="rule">Polis olmadan büyük soygun yapılamaz.</div>
+<div class="rule">Gereksiz adam öldürme yasaktır.</div>
+<div class="rule">Soygun sonrası RP devam etmelidir.</div>
 
 </div>
 

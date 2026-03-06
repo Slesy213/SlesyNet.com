@@ -2,617 +2,230 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bayraktar Roleplay</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
-}
 
 body{
-font-family:Arial, sans-serif;
-background:
-linear-gradient(rgba(5,10,18,0.78), rgba(5,10,18,0.90)),
-url("banner.png") center top / cover no-repeat fixed;
+margin:0;
+font-family:Arial;
+background:#0b0f17;
 color:white;
-min-height:100vh;
-overflow-x:hidden;
-}
-
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:
-radial-gradient(circle at 20% 20%, rgba(0,255,255,0.12), transparent 25%),
-radial-gradient(circle at 80% 30%, rgba(0,140,255,0.12), transparent 25%),
-radial-gradient(circle at 50% 80%, rgba(0,255,180,0.08), transparent 30%);
-pointer-events:none;
-z-index:0;
-animation:glowMove 8s ease-in-out infinite alternate;
-}
-
-@keyframes glowMove{
-0%{transform:translateY(0px);}
-100%{transform:translateY(-20px);}
-}
-
-header,
-nav,
-.container,
-footer{
-position:relative;
-z-index:1;
 }
 
 header{
 text-align:center;
-padding:30px 20px 20px;
-animation:fadeDown 1s ease;
 }
 
-.top-banner{
+.banner{
 width:100%;
-max-width:1600px;
-border-radius:20px;
-display:block;
-margin:0 auto 20px;
-box-shadow:0 10px 35px rgba(0,0,0,0.45);
-border:1px solid rgba(255,255,255,0.08);
 }
 
 .logo{
-width:240px;
-max-width:70%;
-display:block;
-margin:10px auto 10px;
-filter:drop-shadow(0 0 20px rgba(77,234,255,0.35));
-animation:floatLogo 3.5s ease-in-out infinite;
-}
-
-@keyframes floatLogo{
-0%{transform:translateY(0);}
-50%{transform:translateY(-10px);}
-100%{transform:translateY(0);}
-}
-
-.server-title{
-font-size:42px;
-font-weight:900;
-letter-spacing:1px;
-margin-top:10px;
-text-shadow:0 0 15px rgba(0,255,255,0.18);
-}
-
-.server-subtitle{
-margin-top:10px;
-font-size:17px;
-color:#cbe8ff;
-max-width:800px;
-margin-left:auto;
-margin-right:auto;
-line-height:1.6;
-}
-
-.hero-buttons{
-margin-top:22px;
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:14px;
-}
-
-.connect,
-.discord{
-display:inline-block;
-padding:14px 24px;
-border-radius:12px;
-text-decoration:none;
-color:white;
-font-weight:bold;
-transition:0.25s;
-box-shadow:0 10px 25px rgba(0,0,0,0.25);
-}
-
-.connect{
-background:linear-gradient(135deg,#16a34a,#22c55e);
-}
-
-.discord{
-background:linear-gradient(135deg,#4f46e5,#5865F2);
-}
-
-.connect:hover,
-.discord:hover{
-transform:translateY(-3px) scale(1.03);
-}
-
-.stats-panel{
-max-width:1100px;
-margin:30px auto 0;
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:16px;
-padding:0 20px;
-animation:fadeUp 1.1s ease;
-}
-
-.stat-box{
-background:rgba(17,24,39,0.72);
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:18px;
-padding:22px;
-text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.25);
-}
-
-.stat-box h3{
-font-size:15px;
-color:#9edfff;
-margin-bottom:10px;
-}
-
-.stat-box p{
-font-size:26px;
-font-weight:bold;
-color:white;
+width:320px;
+margin-top:-120px;
 }
 
 nav{
-margin:30px auto 0;
-max-width:1100px;
-padding:0 20px;
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:12px;
-animation:fadeUp 1.2s ease;
+background:#111827;
+padding:15px;
+text-align:center;
 }
 
 nav button{
-padding:12px 22px;
+margin:5px;
+padding:10px 20px;
 border:none;
-border-radius:12px;
-background:rgba(37,99,235,0.82);
-backdrop-filter:blur(10px);
+border-radius:8px;
+background:#2563eb;
 color:white;
 cursor:pointer;
-font-weight:bold;
-font-size:15px;
-transition:0.25s;
 }
 
 nav button:hover{
 background:#1d4ed8;
-transform:translateY(-2px);
 }
 
 .container{
-max-width:1100px;
-margin:30px auto;
-padding:0 20px 30px;
-}
-
-.page{
-display:none;
-animation:fadeUp 0.5s ease;
-}
-
-.page.active{
-display:block;
+max-width:1000px;
+margin:auto;
+padding:30px;
 }
 
 .card{
-background:rgba(15,23,42,0.76);
-backdrop-filter:blur(10px);
-padding:24px;
-margin-bottom:18px;
-border-radius:18px;
-border:1px solid rgba(255,255,255,0.08);
-box-shadow:0 12px 30px rgba(0,0,0,0.24);
-}
-
-.card h2{
-margin-bottom:12px;
-font-size:28px;
-color:#7fe8ff;
-}
-
-.card p{
-line-height:1.7;
-color:#d5e9ff;
-}
-
-.home-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
-margin-top:20px;
-}
-
-.info-mini{
-background:rgba(30,41,59,0.75);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:16px;
+background:#1e293b;
 padding:20px;
-transition:0.25s;
-}
-
-.info-mini:hover{
-transform:translateY(-4px);
-box-shadow:0 10px 25px rgba(0,0,0,0.22);
-}
-
-.info-mini h3{
-margin-bottom:10px;
-color:#8aeaff;
-}
-
-.rules-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:16px;
-}
-
-.rule{
-background:rgba(30,41,59,0.78);
-padding:18px;
-border-radius:16px;
-border:1px solid rgba(255,255,255,0.06);
-line-height:1.6;
-}
-
-.staff-title{
-font-size:26px;
-margin:15px 0;
-color:#7fe8ff;
+margin-bottom:15px;
+border-radius:10px;
 }
 
 .staff{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:18px;
+gap:15px;
 }
 
-.staff-card{
-background:rgba(30,41,59,0.82);
-border-radius:18px;
-padding:20px;
+.staff div{
+background:#1e293b;
+padding:15px;
+border-radius:10px;
 text-align:center;
-border:1px solid rgba(255,255,255,0.08);
-transition:0.25s;
-overflow:hidden;
 }
 
-.staff-card:hover{
-transform:translateY(-5px);
-box-shadow:0 15px 30px rgba(0,0,0,0.30);
-}
-
-.staff-card img{
-width:100%;
-height:220px;
-object-fit:cover;
-border-radius:14px;
-margin-bottom:14px;
-border:1px solid rgba(255,255,255,0.08);
-}
-
-.staff-card h3{
-font-size:22px;
-margin-bottom:8px;
-}
-
-.staff-role{
+.connect{
 display:inline-block;
-padding:8px 14px;
-border-radius:999px;
-background:rgba(0,183,255,0.16);
-color:#8fe8ff;
-font-size:14px;
+padding:12px 25px;
+background:#22c55e;
+border-radius:10px;
+margin-top:15px;
+text-decoration:none;
+color:white;
 font-weight:bold;
-margin-bottom:10px;
 }
 
-.staff-card p{
-font-size:14px;
-line-height:1.6;
-color:#cfe6ff;
+.discord{
+display:inline-block;
+padding:12px 25px;
+background:#5865F2;
+border-radius:10px;
+margin-top:15px;
+text-decoration:none;
+color:white;
+font-weight:bold;
 }
 
 footer{
 text-align:center;
-padding:22px;
-background:rgba(17,24,39,0.82);
-backdrop-filter:blur(10px);
+padding:20px;
+background:#111827;
 margin-top:40px;
-border-top:1px solid rgba(255,255,255,0.06);
-color:#c9dfff;
 }
 
-@keyframes fadeDown{
-from{
-opacity:0;
-transform:translateY(-25px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-@keyframes fadeUp{
-from{
-opacity:0;
-transform:translateY(25px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-@media(max-width:950px){
-.stats-panel{
-grid-template-columns:repeat(2,1fr);
-}
-
-.home-grid,
-.staff,
-.rules-grid{
-grid-template-columns:1fr;
-}
-
-.server-title{
-font-size:30px;
-}
-}
-
-@media(max-width:600px){
-.stats-panel{
-grid-template-columns:1fr;
-}
-
-.logo{
-width:180px;
-}
-
-.server-title{
-font-size:25px;
-}
-
-nav button{
-width:100%;
-}
-}
 </style>
 
 <script>
+
 function showPage(page){
-document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
-document.getElementById(page).classList.add("active");
-window.scrollTo({top: 0, behavior: "smooth"});
+
+document.getElementById("home").style.display="none"
+document.getElementById("rules").style.display="none"
+document.getElementById("staff").style.display="none"
+
+document.getElementById(page).style.display="block"
+
 }
 
 async function players(){
+
 try{
-const r = await fetch("https://servers-frontend.fivem.net/api/servers/single/dal65y");
-const d = await r.json();
 
-document.getElementById("online").innerText = d.Data.clients + " / " + d.Data.sv_maxclients;
-document.getElementById("status").innerText = "Aktif";
-document.getElementById("serverid").innerText = "dal65y";
-document.getElementById("resources").innerText = d.Data.resources ? d.Data.resources.length : "363";
+const r = await fetch("https://servers-frontend.fivem.net/api/servers/single/dal65y")
+const d = await r.json()
+
+document.getElementById("online").innerText =
+d.Data.clients + " / " + d.Data.sv_maxclients
+
 }catch{
-document.getElementById("online").innerText = "Gösterilemiyor";
-document.getElementById("status").innerText = "Kontrol Edilemedi";
-document.getElementById("serverid").innerText = "dal65y";
-document.getElementById("resources").innerText = "Bilinmiyor";
-}
+
+document.getElementById("online").innerText = "Sunucu kapalı"
+
 }
 
-setInterval(players, 5000);
+}
+
+setInterval(players,5000)
+
 </script>
+
 </head>
 
 <body onload="players()">
 
 <header>
-<img src="banner.png" class="top-banner" alt="Bayraktar Banner">
-<img src="logo.png" class="logo" alt="Bayraktar Logo">
 
-<h1 class="server-title">Bayraktar Roleplay</h1>
-<p class="server-subtitle">
-Vatan için rol, Bayraktar ruhuyla. Kaliteli şehir roleplay deneyimi, aktif ekip, güçlü sistemler ve modern sunucu yapısı.
-</p>
+<img src="banner.png" class="banner">
 
-<div class="hero-buttons">
-<a class="connect" href="https://cfx.re/join/dal65y" target="_blank">🎮 Sunucuya Bağlan</a>
-<a class="discord" href="https://discord.gg/bayraktarrp" target="_blank">💎 Discord'a Katıl</a>
-</div>
+<img src="logo.png.png" class="logo">
+
+<h1>Bayraktar Roleplay</h1>
+
+<p>Online Oyuncu: <span id="online">Yükleniyor...</span></p>
+
+<a class="connect" href="https://cfx.re/join/dal65y">🎮 Sunucuya Bağlan</a>
+
+<a class="discord" href="https://discord.gg/bayraktarrp">💎 Discord</a>
+
 </header>
 
-<div class="stats-panel">
-<div class="stat-box">
-<h3>Online Oyuncu</h3>
-<p id="online">Yükleniyor...</p>
-</div>
-<div class="stat-box">
-<h3>Sunucu Durumu</h3>
-<p id="status">Kontrol Ediliyor</p>
-</div>
-<div class="stat-box">
-<h3>Sunucu ID</h3>
-<p id="serverid">dal65y</p>
-</div>
-<div class="stat-box">
-<h3>Kaynak Sayısı</h3>
-<p id="resources">Yükleniyor...</p>
-</div>
-</div>
-
 <nav>
+
 <button onclick="showPage('home')">Ana Sayfa</button>
 <button onclick="showPage('rules')">Kurallar</button>
 <button onclick="showPage('staff')">Yetkili Kadrosu</button>
-<button onclick="showPage('about')">Sunucu Tanıtımı</button>
+
 </nav>
 
 <div class="container">
 
-<div id="home" class="page active">
+<div id="home">
+
 <div class="card">
-<h2>Hareketli Ana Sayfa</h2>
+
+<h2>Sunucu Tanıtım</h2>
+
 <p>
-Bayraktar Roleplay; Türk temalı, modern ve güçlü bir şehir roleplay ortamı sunar.
-Düzenli ekip yapısı, kurallı oyun sistemi ve kaliteli topluluğuyla gerçek RP sunucularına yakın bir deneyim sağlar.
+Bayraktar Roleplay kaliteli rol ortamı, aktif yönetim ekibi ve
+düzenli sistemleri ile oyuncularına gerçek RP deneyimi sunar.
 </p>
+
 </div>
 
-<div class="home-grid">
-<div class="info-mini">
-<h3>🌆 Modern Türk Teması</h3>
-<p>Koyu tonlar, neon mavi detaylar ve güçlü görsel yapı ile profesyonel bir görünüm.</p>
 </div>
 
-<div class="info-mini">
-<h3>🎮 Aktif RP Deneyimi</h3>
-<p>Legal ve illegal rol dengesi ile uzun süre keyifli oyun deneyimi.</p>
+<div id="rules" style="display:none">
+
+<div class="card">Fail RP yasaktır.</div>
+<div class="card">Meta Gaming yasaktır.</div>
+<div class="card">Power Gaming yasaktır.</div>
+<div class="card">RDM yasaktır.</div>
+<div class="card">VDM yasaktır.</div>
+<div class="card">Combat Log yasaktır.</div>
+<div class="card">Hile kullanımı yasaktır.</div>
+<div class="card">OOC kavga yasaktır.</div>
+<div class="card">Troll davranış yasaktır.</div>
+
 </div>
 
-<div class="info-mini">
-<h3>🏆 Güçlü Yönetim</h3>
-<p>Aktif yetkili ekibi ve düzenli kontrol sistemi ile daha kaliteli oyun ortamı.</p>
-</div>
-</div>
-</div>
+<div id="staff" style="display:none">
 
-<div id="rules" class="page">
-<div class="card">
-<h2>Sunucu Kuralları</h2>
-<p>Sunucu içi düzeni ve rol kalitesini korumak için aşağıdaki kurallara uyulması zorunludur.</p>
-</div>
+<h2>Kurucu</h2>
 
-<div class="rules-grid">
-<div class="rule"><strong>1. Fail RP Yasaktır.</strong><br>Gerçek hayatta yapılmayacak hareketleri oyun içinde yapmak yasaktır.</div>
-<div class="rule"><strong>2. Meta Gaming Yasaktır.</strong><br>Oyun dışı öğrenilen bilgileri oyun içinde kullanamazsın.</div>
-<div class="rule"><strong>3. Power Gaming Yasaktır.</strong><br>Karşı tarafa rol şansı bırakmadan hareket etmek yasaktır.</div>
-<div class="rule"><strong>4. RDM Yasaktır.</strong><br>Sebepsiz yere bir oyuncuya zarar vermek veya öldürmek yasaktır.</div>
-<div class="rule"><strong>5. VDM Yasaktır.</strong><br>Araç ile bilerek oyunculara vurmak yasaktır.</div>
-<div class="rule"><strong>6. Combat Log Yasaktır.</strong><br>Rol içindeyken oyundan çıkmak ceza sebebidir.</div>
-<div class="rule"><strong>7. Hile Yasaktır.</strong><br>Tüm hileler ve açık kullanımları kalıcı yasak sebebidir.</div>
-<div class="rule"><strong>8. OOC Kavga Yasaktır.</strong><br>Oyun dışı tartışmaları sunucuya taşımak yasaktır.</div>
-<div class="rule"><strong>9. Troll Davranış Yasaktır.</strong><br>Sunucu düzenini bozacak saçma hareketler yasaktır.</div>
-<div class="rule"><strong>10. Yetkili Kararı Geçerlidir.</strong><br>Tartışmalı durumlarda son karar yetkiliye aittir.</div>
-</div>
-</div>
-
-<div id="staff" class="page">
-<div class="card">
-<h2>Yetkili Kadrosu</h2>
-<p>Sunucu düzeni ve oyuncu desteği için görev alan ekip burada yer alır.</p>
-</div>
-
-<div class="staff-title">Kurucu</div>
 <div class="staff">
-<div class="staff-card">
-<img src="logo.png" alt="Osman Sancak">
-<h3>Osman Sancak</h3>
-<div class="staff-role">Kurucu</div>
-<p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
-</div>
+<div>Osman Sancak</div>
 </div>
 
-<div class="staff-title">Yetkili Ekibi</div>
+<h2>Yetkili Ekibi</h2>
+
 <div class="staff">
-<div class="staff-card">
-<img src="logo.png" alt="Emir Kaya">
-<h3>Emir Kaya</h3>
-<div class="staff-role">Yetkili</div>
-<p>Oyuncu destek süreçleri ve sunucu düzeniyle ilgilenir.</p>
+
+<div>Emir Kaya</div>
+<div>Osman Kartal</div>
+<div>Çınar Kartal</div>
+<div>Mehmet Sert</div>
+<div>Mucci Kulaksız</div>
+<div>Mete Arslan</div>
+<div>Mehmet Eltaş</div>
+
 </div>
 
-<div class="staff-card">
-<img src="logo.png" alt="Osman Kartal">
-<h3>Osman Kartal</h3>
-<div class="staff-role">Yetkili</div>
-<p>Rapor kontrolleri ve oyun içi denetimlerde görev alır.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png" alt="Çınar Kartal">
-<h3>Çınar Kartal</h3>
-<div class="staff-role">Yetkili</div>
-<p>Oyuncu işlemleri ve kural kontrollerinde aktif destek sağlar.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png" alt="Mehmet Sert">
-<h3>Mehmet Sert</h3>
-<div class="staff-role">Yetkili</div>
-<p>Sunucu içi düzen ve oyuncu takibi süreçlerinde görev alır.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png" alt="Mucci Kulaksız">
-<h3>Mucci Kulaksız</h3>
-<div class="staff-role">Yetkili</div>
-<p>Topluluk yönetimi ve destek süreçlerinde aktif rol alır.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png" alt="Mete Arslan">
-<h3>Mete Arslan</h3>
-<div class="staff-role">Yetkili</div>
-<p>Sunucu düzeni ve denetim süreçlerinde görev üstlenir.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png" alt="Mehmet Eltaş">
-<h3>Mehmet Eltaş</h3>
-<div class="staff-role">Yetkili</div>
-<p>Oyuncu şikayetleri ve kural uygulamalarında destek sağlar.</p>
-</div>
-</div>
-</div>
-
-<div id="about" class="page">
-<div class="card">
-<h2>Sunucu Tanıtımı</h2>
-<p>
-Bayraktar Roleplay; legal ve illegal rol sistemlerini dengeli sunan, aktif yönetim ekibi ile desteklenen,
-Türk temalı güçlü bir FiveM roleplay sunucusudur.
-</p>
-</div>
-
-<div class="home-grid">
-<div class="info-mini">
-<h3>🚓 Polis ve Şehir Düzeni</h3>
-<p>Şehirde düzeni koruyan aktif ekipler ve kurallı senaryo yapısı bulunur.</p>
-</div>
-<div class="info-mini">
-<h3>💼 Meslek ve Ticaret</h3>
-<p>Oyuncular için farklı iş imkanları ve ekonomik rol seçenekleri sunulur.</p>
-</div>
-<div class="info-mini">
-<h3>🔫 Illegal Yapılar</h3>
-<p>Kurallı suç senaryoları ile daha kaliteli ve dengeli illegal rol deneyimi sağlanır.</p>
-</div>
-</div>
 </div>
 
 </div>
 
 <footer>
-© 2026 Bayraktar Roleplay - Tüm hakları saklıdır.
+
+© 2026 Bayraktar Roleplay
+
 </footer>
 
 </body>

@@ -9,34 +9,27 @@
 body{
 margin:0;
 font-family:Arial;
-background:linear-gradient(135deg,#0f172a,#020617);
+background:#0b0f17;
 color:white;
 }
 
 header{
 text-align:center;
-padding:40px;
-animation:fade 2s;
+}
+
+.banner{
+width:100%;
 }
 
 .logo{
-font-size:40px;
-font-weight:bold;
-color:#38bdf8;
-}
-
-.onlineBox{
-background:#1e293b;
-padding:15px;
-border-radius:10px;
-display:inline-block;
-margin-top:10px;
+width:320px;
+margin-top:-120px;
 }
 
 nav{
-text-align:center;
 background:#111827;
 padding:15px;
+text-align:center;
 }
 
 nav button{
@@ -54,26 +47,50 @@ background:#1d4ed8;
 }
 
 .container{
-max-width:900px;
+max-width:1000px;
 margin:auto;
 padding:30px;
 }
 
-.rule{
+.card{
+background:#1e293b;
+padding:20px;
+margin-bottom:15px;
+border-radius:10px;
+}
+
+.staff{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+}
+
+.staff div{
 background:#1e293b;
 padding:15px;
-margin-bottom:10px;
 border-radius:10px;
+text-align:center;
+}
+
+.connect{
+display:inline-block;
+padding:12px 25px;
+background:#22c55e;
+border-radius:10px;
+margin-top:15px;
+text-decoration:none;
+color:white;
+font-weight:bold;
 }
 
 .discord{
 display:inline-block;
-margin-top:20px;
 padding:12px 25px;
 background:#5865F2;
 border-radius:10px;
-color:white;
+margin-top:15px;
 text-decoration:none;
+color:white;
 font-weight:bold;
 }
 
@@ -84,136 +101,133 @@ background:#111827;
 margin-top:40px;
 }
 
-@keyframes fade{
-from{opacity:0; transform:translateY(-20px);}
-to{opacity:1;}
-}
-
 </style>
 
 <script>
 
 function showPage(page){
 
+document.getElementById("home").style.display="none"
 document.getElementById("rules").style.display="none"
-document.getElementById("police").style.display="none"
-document.getElementById("crime").style.display="none"
-document.getElementById("ban").style.display="none"
+document.getElementById("staff").style.display="none"
 
 document.getElementById(page).style.display="block"
 
 }
 
-async function getPlayers(){
+async function players(){
 
 try{
 
-const response = await fetch("https://servers-frontend.fivem.net/api/servers/single/dal65y")
-const data = await response.json()
+const r = await fetch("https://servers-frontend.fivem.net/api/servers/single/dal65y")
+const d = await r.json()
 
 document.getElementById("online").innerText =
-data.Data.clients + " / " + data.Data.sv_maxclients
+d.Data.clients + " / " + d.Data.sv_maxclients
 
 }catch{
 
-document.getElementById("online").innerText = "Sunucu bulunamadı"
+document.getElementById("online").innerText = "Sunucu kapalı"
 
 }
 
 }
 
-setInterval(getPlayers,5000)
+setInterval(players,5000)
 
 </script>
 
 </head>
 
-<body onload="getPlayers()">
+<body onload="players()">
 
 <header>
 
-<div class="logo">
-Bayraktar Roleplay
-</div>
+<img src="banner.png" class="banner">
 
-<div class="onlineBox">
-Online Oyuncu: <span id="online">Yükleniyor...</span>
-</div>
+<img src="logo.png" class="logo">
+
+<h1>Bayraktar Roleplay</h1>
+
+<p>Online Oyuncu: <span id="online">Yükleniyor...</span></p>
+
+<a class="connect" href="https://cfx.re/join/dal65y">🎮 Sunucuya Bağlan</a>
+
+<a class="discord" href="https://discord.gg/bayraktarrp">💎 Discord</a>
 
 </header>
 
 <nav>
-<button onclick="showPage('rules')">RP Kuralları</button>
-<button onclick="showPage('police')">Polis Kuralları</button>
-<button onclick="showPage('crime')">Suç Kuralları</button>
-<button onclick="showPage('ban')">Ban Kuralları</button>
+
+<button onclick="showPage('home')">Ana Sayfa</button>
+<button onclick="showPage('rules')">Kurallar</button>
+<button onclick="showPage('staff')">Yetkili Kadrosu</button>
+
 </nav>
 
 <div class="container">
 
-<div id="rules">
+<div id="home">
 
-<h2>RP Kuralları</h2>
+<div class="card">
 
-<div class="rule">1. Saygısızlık yasaktır.</div>
-<div class="rule">2. Fail RP yasaktır.</div>
-<div class="rule">3. Meta Gaming yasaktır.</div>
-<div class="rule">4. Power Gaming yasaktır.</div>
-<div class="rule">5. Random Deathmatch yasaktır.</div>
-<div class="rule">6. Value of Life kuralına uyulmalıdır.</div>
-<div class="rule">7. Combat Log yasaktır.</div>
-<div class="rule">8. Hile kullanımı yasaktır.</div>
-<div class="rule">9. OOC kavga yasaktır.</div>
-<div class="rule">10. Toxic davranış yasaktır.</div>
-<div class="rule">11. Sunucu açıklarını kullanmak yasaktır.</div>
-<div class="rule">12. Troll davranış yasaktır.</div>
-<div class="rule">13. RP bozmak yasaktır.</div>
-<div class="rule">14. Karakter dışı bilgi kullanmak yasaktır.</div>
-<div class="rule">15. Yetkili kararları geçerlidir.</div>
+<h2>Sunucu Tanıtım</h2>
 
-<a class="discord" href="https://discord.gg/bayraktarrp" target="_blank">
-Discord'a Katıl
-</a>
+<p>
+Bayraktar Roleplay kaliteli rol ortamı, aktif yönetim ekibi ve
+düzenli sistemleri ile oyuncularına gerçek RP deneyimi sunar.
+</p>
 
 </div>
 
-<div id="police" style="display:none">
+</div>
 
-<h2>Polis Kuralları</h2>
+<div id="rules" style="display:none">
 
-<div class="rule">Polisler sebepsiz yere ateş açamaz.</div>
-<div class="rule">Emir komuta zinciri geçerlidir.</div>
-<div class="rule">Gereksiz güç kullanımı yasaktır.</div>
-<div class="rule">Tüm işlemler RP ile yapılmalıdır.</div>
+<div class="card">Fail RP yasaktır.</div>
+<div class="card">Meta Gaming yasaktır.</div>
+<div class="card">Power Gaming yasaktır.</div>
+<div class="card">RDM yasaktır.</div>
+<div class="card">VDM yasaktır.</div>
+<div class="card">Combat Log yasaktır.</div>
+<div class="card">Hile kullanımı yasaktır.</div>
+<div class="card">OOC kavga yasaktır.</div>
+<div class="card">Troll davranış yasaktır.</div>
 
 </div>
 
-<div id="crime" style="display:none">
+<div id="staff" style="display:none">
 
-<h2>Suç Kuralları</h2>
+<h2>Kurucu</h2>
 
-<div class="rule">Soygunlar RP ile yapılmalıdır.</div>
-<div class="rule">Polis olmadan büyük soygun yapılamaz.</div>
-<div class="rule">Gereksiz adam öldürme yasaktır.</div>
-<div class="rule">Soygun sonrası RP devam etmelidir.</div>
+<div class="staff">
+
+<div>Osman Sancak</div>
 
 </div>
 
-<div id="ban" style="display:none">
+<h2>Yetkili Ekibi</h2>
 
-<h2>Ban Kuralları</h2>
+<div class="staff">
 
-<div class="rule">Hile kullananlar kalıcı ban alır.</div>
-<div class="rule">Ağır hakaret ban sebebidir.</div>
-<div class="rule">Sunucu açıklarını kullananlar banlanır.</div>
-<div class="rule">Yetkiliye hakaret ban sebebidir.</div>
+<div>Emir Kaya</div>
+<div>Osman Kartal</div>
+<div>Çınar Kartal</div>
+<div>Mehmet Sert</div>
+<div>Mucci Kulaksız</div>
+<div>Mete Arslan</div>
+<div>Mehmet Eltaş</div>
+
+</div>
 
 </div>
 
 </div>
 
 <footer>
+
 © 2026 Bayraktar Roleplay
+
 </footer>
 
 </body>

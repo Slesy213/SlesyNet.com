@@ -2,61 +2,121 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bayraktar Roleplay</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 
 body{
-margin:0;
-font-family:Arial;
-background:#0b0f17;
+font-family:Arial, sans-serif;
+background:
+linear-gradient(rgba(5,10,18,0.78), rgba(5,10,18,0.90)),
+url("banner.png") center top / cover no-repeat fixed;
 color:white;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+header,nav,.container,footer{
+position:relative;
+z-index:1;
 }
 
 header{
 text-align:center;
+padding:30px 20px 20px;
 }
 
-.banner{
+.top-banner{
 width:100%;
+max-width:1600px;
+border-radius:20px;
+display:block;
+margin:0 auto 20px;
 }
 
 .logo{
-width:320px;
-margin-top:-120px;
+width:240px;
+display:block;
+margin:10px auto;
 }
 
-nav{
+.server-title{
+font-size:42px;
+font-weight:900;
+}
+
+.hero-buttons{
+margin-top:22px;
+display:flex;
+justify-content:center;
+gap:14px;
+}
+
+.connect{
+padding:14px 24px;
+border-radius:12px;
+background:#22c55e;
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+.discord{
+padding:14px 24px;
+border-radius:12px;
+background:#5865F2;
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+.stats-panel{
+max-width:1100px;
+margin:30px auto;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px;
+}
+
+.stat-box{
 background:#111827;
-padding:15px;
+padding:22px;
+border-radius:18px;
 text-align:center;
 }
 
+nav{
+text-align:center;
+margin:20px;
+}
+
 nav button{
-margin:5px;
 padding:10px 20px;
+margin:5px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 background:#2563eb;
 color:white;
 cursor:pointer;
 }
 
-nav button:hover{
-background:#1d4ed8;
+.container{
+max-width:1100px;
+margin:auto;
+padding:20px;
 }
 
-.container{
-max-width:1000px;
-margin:auto;
-padding:30px;
-}
+.page{display:none;}
+.page.active{display:block;}
 
 .card{
 background:#1e293b;
 padding:20px;
+border-radius:15px;
 margin-bottom:15px;
-border-radius:10px;
 }
 
 .staff{
@@ -65,33 +125,17 @@ grid-template-columns:repeat(3,1fr);
 gap:15px;
 }
 
-.staff div{
+.staff-card{
 background:#1e293b;
-padding:15px;
-border-radius:10px;
+padding:20px;
+border-radius:15px;
 text-align:center;
 }
 
-.connect{
-display:inline-block;
-padding:12px 25px;
-background:#22c55e;
+.staff-card img{
+width:100%;
 border-radius:10px;
-margin-top:15px;
-text-decoration:none;
-color:white;
-font-weight:bold;
-}
-
-.discord{
-display:inline-block;
-padding:12px 25px;
-background:#5865F2;
-border-radius:10px;
-margin-top:15px;
-text-decoration:none;
-color:white;
-font-weight:bold;
+margin-bottom:10px;
 }
 
 footer{
@@ -100,121 +144,143 @@ padding:20px;
 background:#111827;
 margin-top:40px;
 }
-
 </style>
 
 <script>
 
 function showPage(page){
-
-document.getElementById("home").style.display="none"
-document.getElementById("rules").style.display="none"
-document.getElementById("staff").style.display="none"
-
-document.getElementById(page).style.display="block"
-
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"))
+document.getElementById(page).classList.add("active")
 }
 
 async function players(){
-
 try{
+const r=await fetch("https://servers-frontend.fivem.net/api/servers/single/dal65y")
+const d=await r.json()
 
-const r = await fetch("https://servers-frontend.fivem.net/api/servers/single/dal65y")
-const d = await r.json()
-
-document.getElementById("online").innerText =
-d.Data.clients + " / " + d.Data.sv_maxclients
+document.getElementById("online").innerText=d.Data.clients+" / "+d.Data.sv_maxclients
+document.getElementById("status").innerText="Aktif"
+document.getElementById("serverid").innerText="dal65y"
 
 }catch{
-
-document.getElementById("online").innerText = "Sunucu kapalı"
-
+document.getElementById("online").innerText="Gösterilemiyor"
 }
-
 }
 
 setInterval(players,5000)
 
 </script>
-
 </head>
 
 <body onload="players()">
 
 <header>
 
-<img src="banner.png" class="banner">
+<img src="banner.png" class="top-banner">
 
+<!-- LOGO DÜZELTİLDİ -->
 <img src="logo.png.png" class="logo">
 
-<h1>Bayraktar Roleplay</h1>
+<h1 class="server-title">Bayraktar Roleplay</h1>
 
-<p>Online Oyuncu: <span id="online">Yükleniyor...</span></p>
-
+<div class="hero-buttons">
 <a class="connect" href="https://cfx.re/join/dal65y">🎮 Sunucuya Bağlan</a>
-
 <a class="discord" href="https://discord.gg/bayraktarrp">💎 Discord</a>
+</div>
 
 </header>
 
-<nav>
+<div class="stats-panel">
+<div class="stat-box">
+<h3>Online Oyuncu</h3>
+<p id="online">Yükleniyor...</p>
+</div>
 
+<div class="stat-box">
+<h3>Sunucu Durumu</h3>
+<p id="status">Aktif</p>
+</div>
+
+<div class="stat-box">
+<h3>Sunucu ID</h3>
+<p id="serverid">dal65y</p>
+</div>
+
+<div class="stat-box">
+<h3>Kaynak</h3>
+<p>365</p>
+</div>
+</div>
+
+<nav>
 <button onclick="showPage('home')">Ana Sayfa</button>
 <button onclick="showPage('rules')">Kurallar</button>
 <button onclick="showPage('staff')">Yetkili Kadrosu</button>
-
 </nav>
 
 <div class="container">
 
-<div id="home">
-
+<div id="home" class="page active">
 <div class="card">
+<h2>Hareketli Ana Sayfa</h2>
+<p>Bayraktar Roleplay Türk temalı modern RP sunucusudur.</p>
+</div>
+</div>
 
-<h2>Sunucu Tanıtım</h2>
+<div id="rules" class="page">
 
-<p>
-Bayraktar Roleplay kaliteli rol ortamı, aktif yönetim ekibi ve
-düzenli sistemleri ile oyuncularına gerçek RP deneyimi sunar.
-</p>
+<div class="card">Fail RP Yasaktır</div>
+<div class="card">Meta Gaming Yasaktır</div>
+<div class="card">Power Gaming Yasaktır</div>
+<div class="card">RDM Yasaktır</div>
+<div class="card">VDM Yasaktır</div>
 
 </div>
 
-</div>
-
-<div id="rules" style="display:none">
-
-<div class="card">Fail RP yasaktır.</div>
-<div class="card">Meta Gaming yasaktır.</div>
-<div class="card">Power Gaming yasaktır.</div>
-<div class="card">RDM yasaktır.</div>
-<div class="card">VDM yasaktır.</div>
-<div class="card">Combat Log yasaktır.</div>
-<div class="card">Hile kullanımı yasaktır.</div>
-<div class="card">OOC kavga yasaktır.</div>
-<div class="card">Troll davranış yasaktır.</div>
-
-</div>
-
-<div id="staff" style="display:none">
-
-<h2>Kurucu</h2>
-
-<div class="staff">
-<div>Osman Sancak</div>
-</div>
-
-<h2>Yetkili Ekibi</h2>
+<div id="staff" class="page">
 
 <div class="staff">
 
-<div>Emir Kaya</div>
-<div>Osman Kartal</div>
-<div>Çınar Kartal</div>
-<div>Mehmet Sert</div>
-<div>Mucci Kulaksız</div>
-<div>Mete Arslan</div>
-<div>Mehmet Eltaş</div>
+<div class="staff-card">
+<img src="logo.png.png">
+<h3>Osman Sancak</h3>
+<p>Kurucu</p>
+</div>
+
+<div class="staff-card">
+<img src="logo.png.png">
+<h3>Emir Kaya</h3>
+</div>
+
+<div class="staff-card">
+<img src="logo.png.png">
+<h3>Osman Kartal</h3>
+</div>
+
+<div class="staff-card">
+<img src="logo.png.png">
+<h3>Çınar Kartal</h3>
+</div>
+
+<div class="staff-card">
+<img src="logo.png.png">
+<h3>Mehmet Sert</h3>
+</div>
+
+<div class="staff-card">
+<img src="logo.png.png">
+<h3>Mucci Kulaksız</h3>
+</div>
+
+<div class="staff-card">
+<img src="logo.png.png">
+<h3>Mete Arslan</h3>
+</div>
+
+<div class="staff-card">
+<img src="logo.png.png">
+<h3>Mehmet Eltaş</h3>
+</div>
 
 </div>
 
@@ -223,9 +289,7 @@ düzenli sistemleri ile oyuncularına gerçek RP deneyimi sunar.
 </div>
 
 <footer>
-
 © 2026 Bayraktar Roleplay
-
 </footer>
 
 </body>

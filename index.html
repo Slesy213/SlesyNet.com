@@ -810,6 +810,20 @@ currentImageIndex = currentList.length - 1;
 document.getElementById("lightboxImg").src = currentList[currentImageIndex];
 }
 
+function playThemeMusic(){
+const music = document.getElementById("themeMusic");
+const button = document.getElementById("musicToggleBtn");
+
+if(!music) return;
+
+music.play().then(() => {
+button.innerText = "🔊 Müziği Kapat";
+musicStarted = true;
+}).catch(() => {
+button.innerText = "🔇 Müziği Aç";
+});
+}
+
 function toggleMusic(){
 const music = document.getElementById("themeMusic");
 const button = document.getElementById("musicToggleBtn");
@@ -851,19 +865,7 @@ showPage("about");
 
 document.addEventListener("click", function firstStartMusic(){
 if(musicStarted) return;
-
-const music = document.getElementById("themeMusic");
-const button = document.getElementById("musicToggleBtn");
-
-if(music){
-music.play().then(() => {
-button.innerText = "🔊 Müziği Kapat";
-musicStarted = true;
-}).catch(() => {
-button.innerText = "🔇 Müziği Aç";
-});
-}
-
+playThemeMusic();
 document.removeEventListener("click", firstStartMusic);
 });
 
@@ -871,6 +873,7 @@ window.addEventListener("load", () => {
 setTimeout(hideLoading, 1800);
 players();
 setInterval(players, 5000);
+playThemeMusic();
 });
 </script>
 </head>

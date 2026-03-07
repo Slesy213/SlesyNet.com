@@ -21,11 +21,12 @@ scroll-behavior:smooth;
 position:fixed;
 top:0;
 left:0;
-width:100%;
-height:100%;
+width:100vw;
+height:100vh;
 object-fit:cover;
 z-index:-2;
 pointer-events:none;
+background:#000;
 }
 
 body{
@@ -643,6 +644,14 @@ window.addEventListener("load", () => {
 setTimeout(hideLoading, 1800);
 players();
 setInterval(players, 5000);
+
+const video = document.getElementById("bgVideo");
+if(video){
+video.muted = true;
+video.play().catch(() => {
+console.log("Video otomatik oynatılamadı.");
+});
+}
 });
 </script>
 </head>
@@ -650,8 +659,9 @@ setInterval(players, 5000);
 <body>
 
 <!-- VIDEO BACKGROUND -->
-<video autoplay muted loop playsinline id="bgVideo">
-<source src="Download.mp4" type="video/mp4">
+<video id="bgVideo" autoplay muted loop playsinline preload="auto">
+<source src="./Download.mp4" type="video/mp4">
+Tarayıcınız video etiketini desteklemiyor.
 </video>
 
 <div id="loadingScreen">

@@ -321,19 +321,87 @@ margin-bottom:10px;
 color:#8aeaff;
 }
 
-.testimonial-title{
+.review-title{
 font-size:26px;
 margin:24px 0 14px;
 color:#7fe8ff;
 }
 
-.testimonials-grid{
+.review-form{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+margin-bottom:18px;
+}
+
+.review-box{
+background:rgba(30,41,59,0.80);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;
+padding:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.22);
+}
+
+.review-box.full{
+grid-column:1 / -1;
+}
+
+.review-box label{
+display:block;
+margin-bottom:8px;
+font-weight:bold;
+color:#8fe8ff;
+}
+
+.review-input,
+.review-textarea,
+.review-select{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.10);
+background:rgba(15,23,42,0.88);
+color:white;
+outline:none;
+font-size:15px;
+}
+
+.review-textarea{
+min-height:130px;
+resize:vertical;
+}
+
+.review-submit{
+border:none;
+border-radius:14px;
+padding:15px 20px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+color:white;
+background:linear-gradient(135deg,#16a34a,#22c55e);
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
+transition:0.25s;
+}
+
+.review-submit:hover{
+transform:translateY(-3px);
+}
+
+.review-message{
+margin-top:12px;
+font-size:14px;
+color:#cfe6ff;
+}
+
+.reviews-list{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:18px;
+margin-top:18px;
 }
 
-.testimonial-card{
+.review-card{
 background:rgba(30,41,59,0.80);
 border:1px solid rgba(255,255,255,0.08);
 border-radius:18px;
@@ -342,28 +410,35 @@ box-shadow:0 10px 25px rgba(0,0,0,0.22);
 transition:0.25s;
 }
 
-.testimonial-card:hover{
+.review-card:hover{
 transform:translateY(-5px);
 box-shadow:0 16px 30px rgba(0,0,0,0.30);
 }
 
-.testimonial-stars{
+.review-stars{
 font-size:18px;
 margin-bottom:10px;
 color:#ffd86b;
 }
 
-.testimonial-text{
+.review-text{
 font-size:15px;
 line-height:1.7;
 color:#d7ecff;
 margin-bottom:14px;
+word-break:break-word;
 }
 
-.testimonial-user{
+.review-user{
 font-size:14px;
 font-weight:bold;
 color:#8fe8ff;
+}
+
+.review-date{
+font-size:12px;
+color:#9dc7e8;
+margin-top:6px;
 }
 
 .rules-grid{
@@ -485,7 +560,8 @@ font-size:13px;
 color:#8fe8ff;
 }
 
-.empty-players{
+.empty-players,
+.empty-reviews{
 color:#cfe6ff;
 padding:12px 0;
 }
@@ -661,83 +737,30 @@ color:#c9dfff;
 }
 
 @keyframes fadeDown{
-from{
-opacity:0;
-transform:translateY(-25px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
+from{opacity:0;transform:translateY(-25px);}
+to{opacity:1;transform:translateY(0);}
 }
 
 @keyframes fadeUp{
-from{
-opacity:0;
-transform:translateY(25px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
+from{opacity:0;transform:translateY(25px);}
+to{opacity:1;transform:translateY(0);}
 }
 
 @media(max-width:950px){
-.stats-panel{
-grid-template-columns:repeat(2,1fr);
-}
-
-.home-grid,
-.staff,
-.rules-grid,
-.players-list,
-.gallery-grid,
-.testimonials-grid{
-grid-template-columns:1fr;
-}
-
-.server-title{
-font-size:30px;
-}
+.stats-panel{grid-template-columns:repeat(2,1fr);}
+.home-grid,.staff,.rules-grid,.players-list,.gallery-grid,.reviews-list,.review-form{grid-template-columns:1fr;}
+.server-title{font-size:30px;}
 }
 
 @media(max-width:600px){
-.stats-panel{
-grid-template-columns:1fr;
-}
-
-.logo{
-width:180px;
-}
-
-.server-title{
-font-size:25px;
-}
-
-nav button{
-width:100%;
-}
-
-.lightbox-nav{
-width:52px;
-height:52px;
-font-size:40px;
-}
-
-.lightbox-prev{
-left:10px;
-}
-
-.lightbox-next{
-right:10px;
-}
-
-.music-toggle{
-right:12px;
-bottom:12px;
-padding:12px 14px;
-font-size:14px;
-}
+.stats-panel{grid-template-columns:1fr;}
+.logo{width:180px;}
+.server-title{font-size:25px;}
+nav button{width:100%;}
+.lightbox-nav{width:52px;height:52px;font-size:40px;}
+.lightbox-prev{left:10px;}
+.lightbox-next{right:10px;}
+.music-toggle{right:12px;bottom:12px;padding:12px 14px;font-size:14px;}
 }
 </style>
 
@@ -858,7 +881,6 @@ document.getElementById("lightboxImg").src = currentList[currentImageIndex];
 function playThemeMusic(){
 const music = document.getElementById("themeMusic");
 const button = document.getElementById("musicToggleBtn");
-
 if(!music) return;
 
 music.play().then(() => {
@@ -872,7 +894,6 @@ button.innerText = "🔇 Müziği Aç";
 function toggleMusic(){
 const music = document.getElementById("themeMusic");
 const button = document.getElementById("musicToggleBtn");
-
 if(!music) return;
 
 if(music.paused){
@@ -885,6 +906,81 @@ button.innerText = "🔇 Müziği Aç";
 }else{
 music.pause();
 button.innerText = "🔇 Müziği Aç";
+}
+}
+
+function starText(rating){
+return "★".repeat(rating) + "☆".repeat(5 - rating);
+}
+
+async function loadReviews(){
+const list = document.getElementById("reviewsList");
+if(!list) return;
+
+list.innerHTML = '<div class="empty-reviews">Yorumlar yükleniyor...</div>';
+
+try{
+const res = await fetch("/api/reviews");
+const data = await res.json();
+
+if(!data.success || !Array.isArray(data.reviews) || data.reviews.length === 0){
+list.innerHTML = '<div class="empty-reviews">Henüz yorum yok. İlk yorumu sen bırak.</div>';
+return;
+}
+
+list.innerHTML = data.reviews.map(review => `
+<div class="review-card">
+  <div class="review-stars">${starText(review.rating)}</div>
+  <div class="review-text">${review.comment}</div>
+  <div class="review-user">— ${review.name}</div>
+  <div class="review-date">${new Date(review.createdAt).toLocaleString("tr-TR")}</div>
+</div>
+`).join("");
+}catch(err){
+list.innerHTML = '<div class="empty-reviews">Yorumlar alınamadı.</div>';
+}
+}
+
+async function submitReview(e){
+e.preventDefault();
+
+const name = document.getElementById("reviewName").value.trim();
+const comment = document.getElementById("reviewComment").value.trim();
+const rating = document.getElementById("reviewRating").value;
+const message = document.getElementById("reviewMessage");
+const button = document.getElementById("reviewSubmitBtn");
+
+message.innerText = "Gönderiliyor...";
+button.disabled = true;
+
+try{
+const res = await fetch("/api/reviews", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+name,
+comment,
+rating: Number(rating)
+})
+});
+
+const data = await res.json();
+
+if(!data.success){
+message.innerText = data.message || "Yorum gönderilemedi.";
+button.disabled = false;
+return;
+}
+
+document.getElementById("reviewForm").reset();
+message.innerText = "Yorumun başarıyla gönderildi.";
+await loadReviews();
+}catch(err){
+message.innerText = "Bağlantı hatası oluştu.";
+}finally{
+button.disabled = false;
 }
 }
 
@@ -917,6 +1013,7 @@ document.removeEventListener("click", firstStartMusic);
 window.addEventListener("load", () => {
 setTimeout(hideLoading, 1800);
 players();
+loadReviews();
 setInterval(players, 5000);
 playThemeMusic();
 });
@@ -953,26 +1050,11 @@ Vatan için rol, Bayraktar ruhuyla. Kaliteli şehir roleplay deneyimi, aktif eki
 </header>
 
 <div class="stats-panel">
-<div class="stat-box">
-<h3>Online Oyuncu</h3>
-<p id="online">Yükleniyor...</p>
-</div>
-<div class="stat-box">
-<h3>Sunucu Durumu</h3>
-<p id="status">Kontrol Ediliyor</p>
-</div>
-<div class="stat-box">
-<h3>Sunucu ID</h3>
-<p id="serverid">dal65y</p>
-</div>
-<div class="stat-box">
-<h3>Kaynak Sayısı</h3>
-<p id="resources">Yükleniyor...</p>
-</div>
-<div class="stat-box">
-<h3>Ping</h3>
-<p id="ping">Yükleniyor...</p>
-</div>
+<div class="stat-box"><h3>Online Oyuncu</h3><p id="online">Yükleniyor...</p></div>
+<div class="stat-box"><h3>Sunucu Durumu</h3><p id="status">Kontrol Ediliyor</p></div>
+<div class="stat-box"><h3>Sunucu ID</h3><p id="serverid">dal65y</p></div>
+<div class="stat-box"><h3>Kaynak Sayısı</h3><p id="resources">Yükleniyor...</p></div>
+<div class="stat-box"><h3>Ping</h3><p id="ping">Yükleniyor...</p></div>
 </div>
 
 <nav>
@@ -987,328 +1069,189 @@ Vatan için rol, Bayraktar ruhuyla. Kaliteli şehir roleplay deneyimi, aktif eki
 <div class="container">
 
 <div id="home" class="page active">
-<div class="card">
-<h2>Bayraktar Roleplay Ana Sayfa</h2>
-<p>
-Bayraktar Roleplay; Türk temalı, modern ve güçlü bir şehir roleplay ortamı sunar.
-Düzenli ekip yapısı, kurallı oyun sistemi ve kaliteli topluluğuyla gerçek RP sunucularına yakın bir deneyim sağlar.
-</p>
-</div>
+  <div class="card">
+    <h2>Bayraktar Roleplay Ana Sayfa</h2>
+    <p>
+    Bayraktar Roleplay; Türk temalı, modern ve güçlü bir şehir roleplay ortamı sunar.
+    Düzenli ekip yapısı, kurallı oyun sistemi ve kaliteli topluluğuyla gerçek RP sunucularına yakın bir deneyim sağlar.
+    </p>
+  </div>
 
-<div class="home-grid">
-<div class="info-mini">
-<h3>Gelişmiş Map Türk Tema</h3>
-</div>
+  <div class="home-grid">
+    <div class="info-mini">
+      <h3>Gelişmiş Map Türk Tema</h3>
+    </div>
 
-<div class="info-mini">
-<h3>🎮 Aktif RP Deneyimi</h3>
-<p>Legal ve illegal rol dengesi ile uzun süre keyifli oyun deneyimi.</p>
-</div>
+    <div class="info-mini">
+      <h3>🎮 Aktif RP Deneyimi</h3>
+      <p>Legal ve illegal rol dengesi ile uzun süre keyifli oyun deneyimi.</p>
+    </div>
 
-<div class="info-mini">
-<h3>🏆 Güçlü Yönetim</h3>
-<p>Aktif yetkili ekibi ve düzenli kontrol sistemi ile daha kaliteli oyun ortamı.</p>
-</div>
-</div>
+    <div class="info-mini">
+      <h3>🏆 Güçlü Yönetim</h3>
+      <p>Aktif yetkili ekibi ve düzenli kontrol sistemi ile daha kaliteli oyun ortamı.</p>
+    </div>
+  </div>
 
-<div class="testimonial-title">Oyuncu Yorumları</div>
-<div class="testimonials-grid">
-<div class="testimonial-card">
-<div class="testimonial-stars">★★★★★</div>
-<div class="testimonial-text">Uzun zamandır böyle kaliteli ve düzenli bir FiveM sunucusu görmemiştim. Ortam çok iyi, roller çok keyifli.</div>
-<div class="testimonial-user">— Kerem27</div>
-</div>
+  <div class="review-title">Oyuncu Yorumları</div>
 
-<div class="testimonial-card">
-<div class="testimonial-stars">★★★★★</div>
-<div class="testimonial-text">Yönetim ekibi aktif, destek hızlı, map ve sistemler de baya kaliteli. Arkadaş ortamıyla oynaması çok sarıyor.</div>
-<div class="testimonial-user">— MertK</div>
-</div>
+  <form id="reviewForm" class="review-form" onsubmit="submitReview(event)">
+    <div class="review-box">
+      <label for="reviewName">İsmin</label>
+      <input id="reviewName" class="review-input" type="text" maxlength="30" placeholder="İsmini yaz" required>
+    </div>
 
-<div class="testimonial-card">
-<div class="testimonial-stars">★★★★★</div>
-<div class="testimonial-text">İllegal ve legal denge çok iyi ayarlanmış. Yeni başlayan biri için de rahat alışılan bir sunucu olmuş.</div>
-<div class="testimonial-user">— RusherTR</div>
-</div>
-</div>
+    <div class="review-box">
+      <label for="reviewRating">Yıldız Puanın</label>
+      <select id="reviewRating" class="review-select" required>
+        <option value="5">5 Yıldız</option>
+        <option value="4">4 Yıldız</option>
+        <option value="3">3 Yıldız</option>
+        <option value="2">2 Yıldız</option>
+        <option value="1">1 Yıldız</option>
+      </select>
+    </div>
+
+    <div class="review-box full">
+      <label for="reviewComment">Yorumun</label>
+      <textarea id="reviewComment" class="review-textarea" maxlength="400" placeholder="Sunucu hakkındaki yorumunu yaz..." required></textarea>
+    </div>
+
+    <div class="review-box full">
+      <button id="reviewSubmitBtn" class="review-submit" type="submit">Yorumu Gönder</button>
+      <div id="reviewMessage" class="review-message"></div>
+    </div>
+  </form>
+
+  <div id="reviewsList" class="reviews-list">
+    <div class="empty-reviews">Yorumlar yükleniyor...</div>
+  </div>
 </div>
 
 <div id="rules" class="page">
-<div class="card">
-<h2>Bayraktar Roleplay Ceza Sistemi</h2>
-<p>Sunucu içi ceza sistemi aşağıda yer almaktadır.</p>
-</div>
-
-<div class="rules-grid">
-<div class="rule"><strong>DDK</strong><br>PERMA</div>
-<div class="rule"><strong>MDK</strong><br>PERMA</div>
-<div class="rule"><strong>Silah veya Eşya Çoğaltmak (DUPE)</strong><br>PERMA</div>
-<div class="rule"><strong>Sanal Mafiklik</strong><br>PERMA</div>
-<div class="rule"><strong>Donate Satışı/Alışı (OOC TL)</strong><br>PERMA</div>
-<div class="rule"><strong>Kadın Oyuncuya Uygunsuz Davranış</strong><br>PERMA</div>
-<div class="rule"><strong>Destekte ADK</strong><br>PERMA</div>
-<div class="rule"><strong>ADK</strong><br>3 gün WL</div>
-<div class="rule"><strong>IC Dolandırıcılık</strong><br>4 gün WL</div>
-<div class="rule"><strong>Kadın Oyuncuya Hakaret</strong><br>2 gün WL</div>
-<div class="rule"><strong>Departman Baskını</strong><br>PERMA</div>
-<div class="rule"><strong>RDM</strong><br>2 gün WL</div>
-<div class="rule"><strong>Irkçılık</strong><br>2 gün WL</div>
-<div class="rule"><strong>İllegal RPF</strong><br>2 gün WL</div>
-<div class="rule"><strong>Low RP</strong><br>2 gün WL</div>
-<div class="rule"><strong>Hile Kalıntısı</strong><br>2 gün WL + CK</div>
-<div class="rule"><strong>Rol Block Kurallarına Uymama</strong><br>5 gün WL</div>
-<div class="rule"><strong>Gang-Up</strong><br>10 gün WL</div>
-<div class="rule"><strong>İzinsiz Market Banka Soymak</strong><br>1 gün WL</div>
-<div class="rule"><strong>İzinsiz Mekan Baskını</strong><br>10 gün WL</div>
-<div class="rule"><strong>Combatlog</strong><br>3 gün WL</div>
-<div class="rule"><strong>Destekte Küfür</strong><br>2 gün WL</div>
-<div class="rule"><strong>Kısmi RDM</strong><br>4X</div>
-<div class="rule"><strong>İzinsiz ERP</strong><br>2 gün WL</div>
-<div class="rule"><strong>VDM</strong><br>2 gün WL</div>
-<div class="rule"><strong>Rolsüz Soygun</strong><br>4X</div>
-<div class="rule"><strong>Power Gaming</strong><br>3X</div>
-<div class="rule"><strong>Bug Abuse</strong><br>4X</div>
-<div class="rule"><strong>Fear RP</strong><br>4X</div>
-<div class="rule"><strong>PD Soymak</strong><br>2 gün WL</div>
-<div class="rule"><strong>Güvenli Bölgede Agresif Çıkmak</strong><br>2X</div>
-<div class="rule"><strong>Güvenli Bölge İhlali</strong><br>2X</div>
-<div class="rule"><strong>İzinsiz OOC Konuşmak</strong><br>3X</div>
-<div class="rule"><strong>GhostRP</strong><br>3X</div>
-<div class="rule"><strong>Meta Gaming</strong><br>3X</div>
-<div class="rule"><strong>Polis Aracı Çalmak</strong><br>2 gün WL</div>
-<div class="rule"><strong>Revenge Kill (RK)</strong><br>3X</div>
-<div class="rule"><strong>Refuse RP</strong><br>3X</div>
-<div class="rule"><strong>Kamu Alanında Triggerlamak</strong><br>3X</div>
-<div class="rule"><strong>Cop Baiting</strong><br>3X</div>
-<div class="rule"><strong>Özel Mülk Basmak</strong><br>10 gün WL</div>
-<div class="rule"><strong>IC’de OOC Konuşmak</strong><br>3X</div>
-<div class="rule"><strong>Claimsiz Gezmek</strong><br>3X</div>
-<div class="rule"><strong>İzinsiz E Çekmek</strong><br>1 gün WL</div>
-<div class="rule"><strong>Non-RP Driving</strong><br>3X</div>
-<div class="rule"><strong>Mixing</strong><br>3X</div>
-<div class="rule"><strong>Destekte Saygısızlık</strong><br>3X</div>
-<div class="rule"><strong>Yetkililere MELEK demek</strong><br>2X</div>
-<div class="rule"><strong>Fail RP</strong><br>2X</div>
-<div class="rule"><strong>Destekte Kışkırtma</strong><br>1 gün WL</div>
-<div class="rule"><strong>PIT</strong><br>2X</div>
-<div class="rule"><strong>Ölüyken Konuşmak</strong><br>2X</div>
-<div class="rule"><strong>Destekte Yetkiliye Agresif</strong><br>4X</div>
-<div class="rule"><strong>Sarı Sayfalarda Spam Atma</strong><br>2X</div>
-<div class="rule"><strong>Donate Satışı/Alışı (IC PARA KARŞILIĞINDA)</strong><br>CK</div>
-<div class="rule"><strong>WL cezası sonrası DC çık-gir</strong><br>Cezanın 2 katı</div>
-</div>
+  <div class="card">
+    <h2>Bayraktar Roleplay Ceza Sistemi</h2>
+    <p>Sunucu içi ceza sistemi aşağıda yer almaktadır.</p>
+  </div>
+  <div class="rules-grid">
+    <div class="rule"><strong>DDK</strong><br>PERMA</div>
+    <div class="rule"><strong>MDK</strong><br>PERMA</div>
+    <div class="rule"><strong>Silah veya Eşya Çoğaltmak (DUPE)</strong><br>PERMA</div>
+    <div class="rule"><strong>Sanal Mafiklik</strong><br>PERMA</div>
+    <div class="rule"><strong>Donate Satışı/Alışı (OOC TL)</strong><br>PERMA</div>
+    <div class="rule"><strong>Kadın Oyuncuya Uygunsuz Davranış</strong><br>PERMA</div>
+    <div class="rule"><strong>Destekte ADK</strong><br>PERMA</div>
+    <div class="rule"><strong>ADK</strong><br>3 gün WL</div>
+    <div class="rule"><strong>IC Dolandırıcılık</strong><br>4 gün WL</div>
+    <div class="rule"><strong>Kadın Oyuncuya Hakaret</strong><br>2 gün WL</div>
+    <div class="rule"><strong>Departman Baskını</strong><br>PERMA</div>
+    <div class="rule"><strong>RDM</strong><br>2 gün WL</div>
+  </div>
 </div>
 
 <div id="staff" class="page">
-<div class="card">
-<h2>Yetkili Kadrosu</h2>
-<p>Sunucu düzeni ve oyuncu desteği için görev alan ekip burada yer alır.</p>
-</div>
+  <div class="card">
+    <h2>Yetkili Kadrosu</h2>
+    <p>Sunucu düzeni ve oyuncu desteği için görev alan ekip burada yer alır.</p>
+  </div>
 
-<div class="staff-title">Kurucu</div>
-<div class="staff">
-<div class="staff-card">
-<img src="logo.png.png" alt="Netrios">
-<h3>Netrios</h3>
-<div class="staff-role">Kurucu</div>
-<p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
-</div>
+  <div class="staff-title">Kurucu</div>
+  <div class="staff">
+    <div class="staff-card">
+      <img src="logo.png.png" alt="Netrios">
+      <h3>Netrios</h3>
+      <div class="staff-role">Kurucu</div>
+      <p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
+    </div>
 
-<div class="staff-card">
-<img src="logo.png.png" alt="Makarov">
-<h3>Makarov</h3>
-<div class="staff-role">Kurucu</div>
-<p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
-</div>
+    <div class="staff-card">
+      <img src="logo.png.png" alt="Makarov">
+      <h3>Makarov</h3>
+      <div class="staff-role">Kurucu</div>
+      <p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
+    </div>
 
-<div class="staff-card">
-<img src="logo.png.png" alt="Teyxhy">
-<h3>Teyxhy</h3>
-<div class="staff-role">Kurucu</div>
-<p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
-</div>
-</div>
-
-<div class="staff-title">Directör</div>
-<div class="staff">
-<div class="staff-card">
-<img src="logo.png.png" alt="Hexa">
-<h3>Hexa</h3>
-<div class="staff-role">Directör</div>
-<p>Yönetim süreçleri, ekip koordinasyonu ve sunucu düzeninden sorumludur.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png.png" alt="Mehmet Eltas">
-<h3>Mehmet Eltas</h3>
-<div class="staff-role">Directör</div>
-<p>Yönetim süreçleri, ekip koordinasyonu ve sunucu düzeninden sorumludur.</p>
-</div>
-</div>
-
-<div class="staff-title">Admin</div>
-<div class="staff">
-<div class="staff-card">
-<img src="logo.png.png" alt="Mucci">
-<h3>Mucci</h3>
-<div class="staff-role">Admin</div>
-<p>Oyuncu destek süreçleri ve sunucu içi denetimlerle ilgilenir.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png.png" alt="Retr0">
-<h3>Retr0</h3>
-<div class="staff-role">Admin</div>
-<p>Oyuncu destek süreçleri ve sunucu içi denetimlerle ilgilenir.</p>
-</div>
-</div>
-
-<div class="staff-title">Developer</div>
-<div class="staff">
-<div class="staff-card">
-<img src="logo.png.png" alt="wHuso">
-<h3>wHuso</h3>
-<div class="staff-role">Developer</div>
-<p>Sunucu sistemleri, script geliştirme ve teknik altyapı ile ilgilenir.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png.png" alt="Sweepz">
-<h3>Sweepz</h3>
-<div class="staff-role">Developer</div>
-<p>Sunucu sistemleri, script geliştirme ve teknik altyapı ile ilgilenir.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png.png" alt="BySeyit">
-<h3>BySeyit</h3>
-<div class="staff-role">Developer</div>
-<p>Sunucu sistemleri, script geliştirme ve teknik altyapı ile ilgilenir.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png.png" alt="XEP">
-<h3>XEP</h3>
-<div class="staff-role">Developer</div>
-<p>Sunucu sistemleri, script geliştirme ve teknik altyapı ile ilgilenir.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png.png" alt="Lyonn">
-<h3>Lyonn</h3>
-<div class="staff-role">Developer</div>
-<p>Sunucu sistemleri, script geliştirme ve teknik altyapı ile ilgilenir.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png.png" alt="Lyric4l.lua">
-<h3>Lyric4l.lua</h3>
-<div class="staff-role">Developer</div>
-<p>Sunucu sistemleri, script geliştirme ve teknik altyapı ile ilgilenir.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png.png" alt="Expert">
-<h3>Expert</h3>
-<div class="staff-role">Developer</div>
-<p>Sunucu sistemleri, script geliştirme ve teknik altyapı ile ilgilenir.</p>
-</div>
-</div>
-
-<div class="staff-title">Site Developer</div>
-<div class="staff">
-<div class="staff-card">
-<img src="logo.png.png" alt="Slesy">
-<h3>Slesy</h3>
-<div class="staff-role">Site Developer</div>
-<p>Web site tasarımı, düzeni ve teknik geliştirmelerden sorumludur.</p>
-</div>
-
-<div class="staff-card">
-<img src="logo.png.png" alt="Pymx">
-<h3>Pymx</h3>
-<div class="staff-role">Site Developer</div>
-<p>Web site tasarımı, düzeni ve teknik geliştirmelerden sorumludur.</p>
-</div>
-</div>
+    <div class="staff-card">
+      <img src="logo.png.png" alt="Teyxhy">
+      <h3>Teyxhy</h3>
+      <div class="staff-role">Kurucu</div>
+      <p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
+    </div>
+  </div>
 </div>
 
 <div id="about" class="page">
-<div class="card">
-<h2>Sunucu Tanıtımı</h2>
-<p>
-Bayraktar Roleplay; legal ve illegal rol sistemlerini dengeli sunan, aktif yönetim ekibi ile desteklenen,
-Türk temalı güçlü bir FiveM roleplay sunucusudur.
-</p>
-</div>
+  <div class="card">
+    <h2>Sunucu Tanıtımı</h2>
+    <p>
+    Bayraktar Roleplay; legal ve illegal rol sistemlerini dengeli sunan, aktif yönetim ekibi ile desteklenen,
+    Türk temalı güçlü bir FiveM roleplay sunucusudur.
+    </p>
+  </div>
 
-<div class="home-grid">
-<div class="info-mini">
-<button class="page-button" onclick="window.open('https://discord.com/channels/1425146860888391722/1425164977228218519', '_blank')">📸 Discord Oyundan Kareler</button>
-</div>
+  <div class="home-grid">
+    <div class="info-mini">
+      <button class="page-button" onclick="window.open('https://discord.com/channels/1425146860888391722/1425164977228218519', '_blank')">📸 Discord Oyundan Kareler</button>
+    </div>
 
-<div class="info-mini">
-<button class="page-button" onclick="showPage('meslekPage')">💼 Meslek ve Ticaret</button>
-</div>
+    <div class="info-mini">
+      <button class="page-button" onclick="showPage('meslekPage')">💼 Meslek ve Ticaret</button>
+    </div>
 
-<div class="info-mini">
-<button class="page-button" onclick="showPage('illegalPage')">🔫 Illegal Yapılar</button>
-</div>
-</div>
+    <div class="info-mini">
+      <button class="page-button" onclick="showPage('illegalPage')">🔫 Illegal Yapılar</button>
+    </div>
+  </div>
 </div>
 
 <div id="illegalPage" class="page">
-<div class="card">
-<h2>Illegal Bölgeler</h2>
-<p>Sunucudaki illegal bölgeler aşağıda görüntülenmektedir.</p>
+  <div class="card">
+    <h2>Illegal Bölgeler</h2>
+    <p>Sunucudaki illegal bölgeler aşağıda görüntülenmektedir.</p>
 
-<div class="gallery-grid">
-<div class="gallery-card">
-<img src="illegal1.png" alt="Illegal Bölge 1" onclick="openLightbox(this.src, 'illegal')">
-</div>
+    <div class="gallery-grid">
+      <div class="gallery-card">
+        <img src="illegal1.png" alt="Illegal Bölge 1" onclick="openLightbox(this.src, 'illegal')">
+      </div>
+      <div class="gallery-card">
+        <img src="illegal2.png" alt="Illegal Bölge 2" onclick="openLightbox(this.src, 'illegal')">
+      </div>
+      <div class="gallery-card">
+        <img src="illegal3.png" alt="Illegal Bölge 3" onclick="openLightbox(this.src, 'illegal')">
+      </div>
+    </div>
 
-<div class="gallery-card">
-<img src="illegal2.png" alt="Illegal Bölge 2" onclick="openLightbox(this.src, 'illegal')">
-</div>
-
-<div class="gallery-card">
-<img src="illegal3.png" alt="Illegal Bölge 3" onclick="openLightbox(this.src, 'illegal')">
-</div>
-</div>
-
-<button class="back-btn" onclick="showPage('about')">← Sunucu Tanıtımına Dön</button>
-</div>
+    <button class="back-btn" onclick="showPage('about')">← Sunucu Tanıtımına Dön</button>
+  </div>
 </div>
 
 <div id="meslekPage" class="page">
-<div class="card">
-<h2>Meslek ve Ticaret</h2>
-<p>Sunucudaki meslek ve ticaret alanlarına ait görseller aşağıda yer almaktadır. Çıkmak için ESC tuşuna basabilirsin.</p>
+  <div class="card">
+    <h2>Meslek ve Ticaret</h2>
+    <p>Sunucudaki meslek ve ticaret alanlarına ait görseller aşağıda yer almaktadır. Çıkmak için ESC tuşuna basabilirsin.</p>
 
-<div class="gallery-grid">
-<div class="gallery-card">
-<img src="meslek1.png" alt="Meslek Bölgesi 1" onclick="openLightbox(this.src, 'meslek')">
-</div>
-
-<div class="gallery-card">
-<img src="meslek2.png" alt="Meslek Bölgesi 2" onclick="openLightbox(this.src, 'meslek')">
-</div>
-
-<div class="gallery-card">
-<img src="meslek3.png" alt="Meslek Bölgesi 3" onclick="openLightbox(this.src, 'meslek')">
-</div>
-</div>
-</div>
+    <div class="gallery-grid">
+      <div class="gallery-card">
+        <img src="meslek1.png" alt="Meslek Bölgesi 1" onclick="openLightbox(this.src, 'meslek')">
+      </div>
+      <div class="gallery-card">
+        <img src="meslek2.png" alt="Meslek Bölgesi 2" onclick="openLightbox(this.src, 'meslek')">
+      </div>
+      <div class="gallery-card">
+        <img src="meslek3.png" alt="Meslek Bölgesi 3" onclick="openLightbox(this.src, 'meslek')">
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="playersPage" class="page">
-<div class="card">
-<h2>Oyuncu Listesi</h2>
-<p>Sunucuda aktif olan oyuncular burada görünür.</p>
-<div id="playersList" class="players-list">
-<div class="empty-players">Oyuncu listesi yükleniyor...</div>
-</div>
-</div>
+  <div class="card">
+    <h2>Oyuncu Listesi</h2>
+    <p>Sunucuda aktif olan oyuncular burada görünür.</p>
+    <div id="playersList" class="players-list">
+      <div class="empty-players">Oyuncu listesi yükleniyor...</div>
+    </div>
+  </div>
 </div>
 
 </div>

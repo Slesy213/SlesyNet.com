@@ -584,6 +584,28 @@ left:20px;
 right:20px;
 }
 
+.music-toggle{
+position:fixed;
+right:20px;
+bottom:20px;
+z-index:9999;
+border:none;
+border-radius:14px;
+padding:14px 18px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+color:white;
+background:linear-gradient(135deg,#4f46e5,#5865F2);
+box-shadow:0 10px 25px rgba(0,0,0,0.30);
+transition:0.25s;
+}
+
+.music-toggle:hover{
+transform:translateY(-3px) scale(1.03);
+background:linear-gradient(135deg,#4338ca,#4f46e5);
+}
+
 footer{
 text-align:center;
 padding:22px;
@@ -664,6 +686,13 @@ left:10px;
 .lightbox-next{
 right:10px;
 }
+
+.music-toggle{
+right:12px;
+bottom:12px;
+padding:12px 14px;
+font-size:14px;
+}
 }
 </style>
 
@@ -675,6 +704,7 @@ meslek: ["meslek1.png", "meslek2.png", "meslek3.png"]
 
 let currentGallery = "illegal";
 let currentImageIndex = 0;
+let musicStarted = false;
 
 function showPage(page){
 document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
@@ -780,8 +810,23 @@ currentImageIndex = currentList.length - 1;
 document.getElementById("lightboxImg").src = currentList[currentImageIndex];
 }
 
-function openDiscordScreens(){
-window.open("https://discord.com/channels/1425146860888391722/1425164977228218519", "_blank");
+function toggleMusic(){
+const music = document.getElementById("themeMusic");
+const button = document.getElementById("musicToggleBtn");
+
+if(!music) return;
+
+if(music.paused){
+music.play().then(() => {
+button.innerText = "🔊 Müziği Kapat";
+musicStarted = true;
+}).catch(() => {
+button.innerText = "🔇 Müziği Aç";
+});
+}else{
+music.pause();
+button.innerText = "🔇 Müziği Aç";
+}
 }
 
 document.addEventListener("keydown", function(e){
@@ -804,6 +849,24 @@ showPage("about");
 }
 });
 
+document.addEventListener("click", function firstStartMusic(){
+if(musicStarted) return;
+
+const music = document.getElementById("themeMusic");
+const button = document.getElementById("musicToggleBtn");
+
+if(music){
+music.play().then(() => {
+button.innerText = "🔊 Müziği Kapat";
+musicStarted = true;
+}).catch(() => {
+button.innerText = "🔇 Müziği Aç";
+});
+}
+
+document.removeEventListener("click", firstStartMusic);
+});
+
 window.addEventListener("load", () => {
 setTimeout(hideLoading, 1800);
 players();
@@ -814,6 +877,7 @@ setInterval(players, 5000);
 
 <body>
 
+<!-- VIDEO BACKGROUND -->
 <video autoplay muted loop playsinline id="bgVideo" preload="auto">
 <source src="bgvideo.mp4" type="video/mp4">
 </video>
@@ -1112,7 +1176,7 @@ Türk temalı güçlü bir FiveM roleplay sunucusudur.
 
 <div class="home-grid">
 <div class="info-mini">
-<button class="page-button" onclick="openDiscordScreens()">📸 Discord Oyundan Kareler</button>
+<button class="page-button" onclick="window.open('https://discord.com/channels/1425146860888391722/1425164977228218519', '_blank')">📸 Discord Oyundan Kareler</button>
 </div>
 
 <div class="info-mini">
@@ -1191,6 +1255,12 @@ Türk temalı güçlü bir FiveM roleplay sunucusudur.
 <img id="lightboxImg" src="" alt="Büyük Görsel" onclick="event.stopPropagation()">
 <span class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); nextImage()">&#10095;</span>
 </div>
+
+<audio id="themeMusic" loop>
+<source src="tema-muzik.mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicToggleBtn" class="music-toggle" onclick="toggleMusic()">🔇 Müziği Aç</button>
 
 </body>
 </html>

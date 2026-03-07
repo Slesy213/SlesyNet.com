@@ -668,11 +668,12 @@ right:10px;
 </style>
 
 <script>
-let galleryImages = [
-"illegal1.png",
-"illegal2.png",
-"illegal3.png"
-];
+let galleryMap = {
+illegal: ["illegal1.png", "illegal2.png", "illegal3.png"],
+meslek: ["meslek1.png", "meslek2.png", "meslek3.png"]
+};
+
+let currentGallery = "illegal";
 let currentImageIndex = 0;
 
 function showPage(page){
@@ -736,14 +737,19 @@ document.getElementById("playersList").innerHTML = '<div class="empty-players">O
 }
 }
 
-function openLightbox(src){
-currentImageIndex = galleryImages.indexOf(src.split("/").pop());
+function openLightbox(src, galleryName){
+currentGallery = galleryName;
+const currentList = galleryMap[currentGallery];
+const fileName = src.split("/").pop();
+currentImageIndex = currentList.indexOf(fileName);
+
 if(currentImageIndex === -1){
 currentImageIndex = 0;
 }
+
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
-lightboxImg.src = galleryImages[currentImageIndex];
+lightboxImg.src = currentList[currentImageIndex];
 lightbox.classList.add("active");
 document.body.style.overflow = "hidden";
 }
@@ -757,31 +763,40 @@ document.body.style.overflow = "auto";
 }
 
 function nextImage(){
+const currentList = galleryMap[currentGallery];
 currentImageIndex++;
-if(currentImageIndex >= galleryImages.length){
+if(currentImageIndex >= currentList.length){
 currentImageIndex = 0;
 }
-document.getElementById("lightboxImg").src = galleryImages[currentImageIndex];
+document.getElementById("lightboxImg").src = currentList[currentImageIndex];
 }
 
 function prevImage(){
+const currentList = galleryMap[currentGallery];
 currentImageIndex--;
 if(currentImageIndex < 0){
-currentImageIndex = galleryImages.length - 1;
+currentImageIndex = currentList.length - 1;
 }
-document.getElementById("lightboxImg").src = galleryImages[currentImageIndex];
+document.getElementById("lightboxImg").src = currentList[currentImageIndex];
 }
 
 document.addEventListener("keydown", function(e){
 const lightbox = document.getElementById("lightbox");
-if(!lightbox.classList.contains("active")) return;
 
+if(lightbox.classList.contains("active")){
 if(e.key === "Escape"){
 closeLightbox();
 }else if(e.key === "ArrowRight"){
 nextImage();
 }else if(e.key === "ArrowLeft"){
 prevImage();
+}
+return;
+}
+
+const meslekPage = document.getElementById("meslekPage");
+if(meslekPage && meslekPage.classList.contains("active") && e.key === "Escape"){
+showPage("about");
 }
 });
 
@@ -1099,8 +1114,7 @@ Türk temalı güçlü bir FiveM roleplay sunucusudur.
 </div>
 
 <div class="info-mini">
-<h3>💼 Meslek ve Ticaret</h3>
-<p>Oyuncular için farklı iş imkanları ve ekonomik rol seçenekleri sunulur.</p>
+<button class="page-button" onclick="showPage('meslekPage')">💼 Meslek ve Ticaret</button>
 </div>
 
 <div class="info-mini">
@@ -1116,19 +1130,40 @@ Türk temalı güçlü bir FiveM roleplay sunucusudur.
 
 <div class="gallery-grid">
 <div class="gallery-card">
-<img src="illegal1.png" alt="Illegal Bölge 1" onclick="openLightbox(this.src)">
+<img src="illegal1.png" alt="Illegal Bölge 1" onclick="openLightbox(this.src, 'illegal')">
 </div>
 
 <div class="gallery-card">
-<img src="illegal2.png" alt="Illegal Bölge 2" onclick="openLightbox(this.src)">
+<img src="illegal2.png" alt="Illegal Bölge 2" onclick="openLightbox(this.src, 'illegal')">
 </div>
 
 <div class="gallery-card">
-<img src="illegal3.png" alt="Illegal Bölge 3" onclick="openLightbox(this.src)">
+<img src="illegal3.png" alt="Illegal Bölge 3" onclick="openLightbox(this.src, 'illegal')">
 </div>
 </div>
 
 <button class="back-btn" onclick="showPage('about')">← Sunucu Tanıtımına Dön</button>
+</div>
+</div>
+
+<div id="meslekPage" class="page">
+<div class="card">
+<h2>Meslek ve Ticaret</h2>
+<p>Sunucudaki meslek ve ticaret alanlarına ait görseller aşağıda yer almaktadır. Çıkmak için ESC tuşuna basabilirsin.</p>
+
+<div class="gallery-grid">
+<div class="gallery-card">
+<img src="meslek1.png" alt="Meslek Bölgesi 1" onclick="openLightbox(this.src, 'meslek')">
+</div>
+
+<div class="gallery-card">
+<img src="meslek2.png" alt="Meslek Bölgesi 2" onclick="openLightbox(this.src, 'meslek')">
+</div>
+
+<div class="gallery-card">
+<img src="meslek3.png" alt="Meslek Bölgesi 3" onclick="openLightbox(this.src, 'meslek')">
+</div>
+</div>
 </div>
 </div>
 

@@ -21,13 +21,11 @@ scroll-behavior:smooth;
 position:fixed;
 top:0;
 left:0;
-width:100vw;
-height:100vh;
+width:100%;
+height:100%;
 object-fit:cover;
-z-index:0;
+z-index:-2;
 pointer-events:none;
-background:#000;
-display:block;
 }
 
 body{
@@ -36,7 +34,6 @@ background:#050a12;
 color:white;
 min-height:100vh;
 overflow-x:hidden;
-position:relative;
 }
 
 body::before{
@@ -49,7 +46,7 @@ radial-gradient(circle at 20% 20%, rgba(0,255,255,0.12), transparent 25%),
 radial-gradient(circle at 80% 30%, rgba(0,140,255,0.12), transparent 25%),
 radial-gradient(circle at 50% 80%, rgba(0,255,180,0.08), transparent 30%);
 pointer-events:none;
-z-index:1;
+z-index:-1;
 animation:glowMove 8s ease-in-out infinite alternate;
 }
 
@@ -118,7 +115,7 @@ nav,
 .container,
 footer{
 position:relative;
-z-index:2;
+z-index:1;
 }
 
 header{
@@ -701,29 +698,6 @@ lightboxImg.src = "";
 document.body.style.overflow = "auto";
 }
 
-function startBackgroundVideo(){
-const video = document.getElementById("bgVideo");
-if(!video) return;
-
-video.muted = true;
-video.defaultMuted = true;
-video.loop = true;
-video.autoplay = true;
-video.playsInline = true;
-
-const tryPlay = () => {
-video.play().catch(err => {
-console.log("Video oynatılamadı:", err);
-});
-};
-
-video.addEventListener("loadeddata", tryPlay, { once:true });
-video.addEventListener("canplay", tryPlay, { once:true });
-
-setTimeout(tryPlay, 500);
-setTimeout(tryPlay, 1500);
-}
-
 document.addEventListener("keydown", function(e){
 if(e.key === "Escape"){
 closeLightbox();
@@ -734,7 +708,6 @@ window.addEventListener("load", () => {
 setTimeout(hideLoading, 1800);
 players();
 setInterval(players, 5000);
-startBackgroundVideo();
 });
 </script>
 </head>

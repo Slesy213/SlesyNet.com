@@ -327,73 +327,6 @@ margin:24px 0 14px;
 color:#7fe8ff;
 }
 
-.review-form{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:16px;
-margin-bottom:18px;
-}
-
-.review-box{
-background:rgba(30,41,59,0.80);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:18px;
-padding:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.22);
-}
-
-.review-box.full{
-grid-column:1 / -1;
-}
-
-.review-box label{
-display:block;
-margin-bottom:8px;
-font-weight:bold;
-color:#8fe8ff;
-}
-
-.review-input,
-.review-textarea,
-.review-select{
-width:100%;
-padding:14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.10);
-background:rgba(15,23,42,0.88);
-color:white;
-outline:none;
-font-size:15px;
-}
-
-.review-textarea{
-min-height:130px;
-resize:vertical;
-}
-
-.review-submit{
-border:none;
-border-radius:14px;
-padding:15px 20px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-color:white;
-background:linear-gradient(135deg,#16a34a,#22c55e);
-box-shadow:0 10px 25px rgba(0,0,0,0.25);
-transition:0.25s;
-}
-
-.review-submit:hover{
-transform:translateY(-3px);
-}
-
-.review-message{
-margin-top:12px;
-font-size:14px;
-color:#cfe6ff;
-}
-
 .reviews-list{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -433,12 +366,6 @@ word-break:break-word;
 font-size:14px;
 font-weight:bold;
 color:#8fe8ff;
-}
-
-.review-date{
-font-size:12px;
-color:#9dc7e8;
-margin-top:6px;
 }
 
 .rules-grid{
@@ -560,8 +487,7 @@ font-size:13px;
 color:#8fe8ff;
 }
 
-.empty-players,
-.empty-reviews{
+.empty-players{
 color:#cfe6ff;
 padding:12px 0;
 }
@@ -748,7 +674,7 @@ to{opacity:1;transform:translateY(0);}
 
 @media(max-width:950px){
 .stats-panel{grid-template-columns:repeat(2,1fr);}
-.home-grid,.staff,.rules-grid,.players-list,.gallery-grid,.reviews-list,.review-form{grid-template-columns:1fr;}
+.home-grid,.staff,.rules-grid,.players-list,.gallery-grid,.reviews-list{grid-template-columns:1fr;}
 .server-title{font-size:30px;}
 }
 
@@ -909,81 +835,6 @@ button.innerText = "🔇 Müziği Aç";
 }
 }
 
-function starText(rating){
-return "★".repeat(rating) + "☆".repeat(5 - rating);
-}
-
-async function loadReviews(){
-const list = document.getElementById("reviewsList");
-if(!list) return;
-
-list.innerHTML = '<div class="empty-reviews">Yorumlar yükleniyor...</div>';
-
-try{
-const res = await fetch("/api/reviews");
-const data = await res.json();
-
-if(!data.success || !Array.isArray(data.reviews) || data.reviews.length === 0){
-list.innerHTML = '<div class="empty-reviews">Henüz yorum yok. İlk yorumu sen bırak.</div>';
-return;
-}
-
-list.innerHTML = data.reviews.map(review => `
-<div class="review-card">
-  <div class="review-stars">${starText(review.rating)}</div>
-  <div class="review-text">${review.comment}</div>
-  <div class="review-user">— ${review.name}</div>
-  <div class="review-date">${new Date(review.createdAt).toLocaleString("tr-TR")}</div>
-</div>
-`).join("");
-}catch(err){
-list.innerHTML = '<div class="empty-reviews">Yorumlar alınamadı.</div>';
-}
-}
-
-async function submitReview(e){
-e.preventDefault();
-
-const name = document.getElementById("reviewName").value.trim();
-const comment = document.getElementById("reviewComment").value.trim();
-const rating = document.getElementById("reviewRating").value;
-const message = document.getElementById("reviewMessage");
-const button = document.getElementById("reviewSubmitBtn");
-
-message.innerText = "Gönderiliyor...";
-button.disabled = true;
-
-try{
-const res = await fetch("/api/reviews", {
-method: "POST",
-headers: {
-"Content-Type": "application/json"
-},
-body: JSON.stringify({
-name,
-comment,
-rating: Number(rating)
-})
-});
-
-const data = await res.json();
-
-if(!data.success){
-message.innerText = data.message || "Yorum gönderilemedi.";
-button.disabled = false;
-return;
-}
-
-document.getElementById("reviewForm").reset();
-message.innerText = "Yorumun başarıyla gönderildi.";
-await loadReviews();
-}catch(err){
-message.innerText = "Bağlantı hatası oluştu.";
-}finally{
-button.disabled = false;
-}
-}
-
 document.addEventListener("keydown", function(e){
 const lightbox = document.getElementById("lightbox");
 
@@ -1013,7 +864,6 @@ document.removeEventListener("click", firstStartMusic);
 window.addEventListener("load", () => {
 setTimeout(hideLoading, 1800);
 players();
-loadReviews();
 setInterval(players, 5000);
 playThemeMusic();
 });
@@ -1095,36 +945,24 @@ Vatan için rol, Bayraktar ruhuyla. Kaliteli şehir roleplay deneyimi, aktif eki
 
   <div class="review-title">Oyuncu Yorumları</div>
 
-  <form id="reviewForm" class="review-form" onsubmit="submitReview(event)">
-    <div class="review-box">
-      <label for="reviewName">İsmin</label>
-      <input id="reviewName" class="review-input" type="text" maxlength="30" placeholder="İsmini yaz" required>
-    </div>
-
-    <div class="review-box">
-      <label for="reviewRating">Yıldız Puanın</label>
-      <select id="reviewRating" class="review-select" required>
-        <option value="5">5 Yıldız</option>
-        <option value="4">4 Yıldız</option>
-        <option value="3">3 Yıldız</option>
-        <option value="2">2 Yıldız</option>
-        <option value="1">1 Yıldız</option>
-      </select>
-    </div>
-
-    <div class="review-box full">
-      <label for="reviewComment">Yorumun</label>
-      <textarea id="reviewComment" class="review-textarea" maxlength="400" placeholder="Sunucu hakkındaki yorumunu yaz..." required></textarea>
-    </div>
-
-    <div class="review-box full">
-      <button id="reviewSubmitBtn" class="review-submit" type="submit">Yorumu Gönder</button>
-      <div id="reviewMessage" class="review-message"></div>
-    </div>
-  </form>
-
   <div id="reviewsList" class="reviews-list">
-    <div class="empty-reviews">Yorumlar yükleniyor...</div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">10 Numara</div>
+      <div class="review-user">— Bayraktar RolePlay</div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">5 Yıldız</div>
+      <div class="review-user">— Pymx</div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">Sunucu</div>
+      <div class="review-user">— Slesy</div>
+    </div>
   </div>
 </div>
 

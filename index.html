@@ -19,14 +19,17 @@ scroll-behavior:smooth;
 /* VIDEO BACKGROUND */
 #bgVideo{
 position:fixed;
-top:0;
-left:0;
+inset:0;
 width:100vw;
 height:100vh;
+min-width:100%;
+min-height:100%;
 object-fit:cover;
 z-index:-2;
 pointer-events:none;
+display:block;
 background:#000;
+opacity:1;
 }
 
 body{
@@ -42,7 +45,7 @@ content:"";
 position:fixed;
 inset:0;
 background:
-linear-gradient(rgba(5,10,18,0.78), rgba(5,10,18,0.90)),
+linear-gradient(rgba(5,10,18,0.72), rgba(5,10,18,0.88)),
 radial-gradient(circle at 20% 20%, rgba(0,255,255,0.12), transparent 25%),
 radial-gradient(circle at 80% 30%, rgba(0,140,255,0.12), transparent 25%),
 radial-gradient(circle at 50% 80%, rgba(0,255,180,0.08), transparent 30%);
@@ -640,28 +643,50 @@ document.getElementById("playersList").innerHTML = '<div class="empty-players">O
 }
 }
 
+function startBackgroundVideo(){
+const video = document.getElementById("bgVideo");
+if(!video) return;
+
+video.muted = true;
+video.defaultMuted = true;
+video.loop = true;
+video.playsInline = true;
+video.autoplay = true;
+video.setAttribute("muted", "");
+video.setAttribute("autoplay", "");
+video.setAttribute("playsinline", "");
+
+video.src = "./Download.mp4";
+video.load();
+
+const tryPlay = () => {
+video.play().then(() => {
+console.log("Arka plan videosu oynuyor.");
+}).catch((err) => {
+console.log("Video oynatılamadı:", err);
+});
+};
+
+video.addEventListener("canplay", tryPlay, { once:true });
+video.addEventListener("loadeddata", tryPlay, { once:true });
+
+setTimeout(tryPlay, 400);
+setTimeout(tryPlay, 1200);
+}
+
 window.addEventListener("load", () => {
 setTimeout(hideLoading, 1800);
 players();
 setInterval(players, 5000);
-
-const video = document.getElementById("bgVideo");
-if(video){
-video.muted = true;
-video.play().catch(() => {
-console.log("Video otomatik oynatılamadı.");
-});
-}
+startBackgroundVideo();
 });
 </script>
 </head>
 
 <body>
 
-<!-- VIDEO BACKGROUND -->
-<video id="bgVideo" autoplay muted loop playsinline preload="auto">
+<video id="bgVideo" muted autoplay loop playsinline preload="auto">
 <source src="./Download.mp4" type="video/mp4">
-Tarayıcınız video etiketini desteklemiyor.
 </video>
 
 <div id="loadingScreen">

@@ -327,20 +327,34 @@ margin:24px 0 14px;
 color:#7fe8ff;
 }
 
-.reviews-list{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
+.review-slider{
+position:relative;
+overflow:hidden;
+width:100%;
 margin-top:18px;
 }
 
+.review-track{
+display:flex;
+gap:18px;
+width:max-content;
+animation:reviewSlide 18s linear infinite;
+}
+
+.review-slider:hover .review-track{
+animation-play-state:paused;
+}
+
 .review-card{
+min-width:340px;
+max-width:340px;
 background:rgba(30,41,59,0.80);
 border:1px solid rgba(255,255,255,0.08);
 border-radius:18px;
 padding:22px;
 box-shadow:0 10px 25px rgba(0,0,0,0.22);
 transition:0.25s;
+flex-shrink:0;
 }
 
 .review-card:hover{
@@ -366,6 +380,15 @@ word-break:break-word;
 font-size:14px;
 font-weight:bold;
 color:#8fe8ff;
+}
+
+@keyframes reviewSlide{
+0%{
+transform:translateX(0);
+}
+100%{
+transform:translateX(calc(-358px * 3));
+}
 }
 
 .rules-grid{
@@ -674,8 +697,22 @@ to{opacity:1;transform:translateY(0);}
 
 @media(max-width:950px){
 .stats-panel{grid-template-columns:repeat(2,1fr);}
-.home-grid,.staff,.rules-grid,.players-list,.gallery-grid,.reviews-list{grid-template-columns:1fr;}
+.home-grid,.staff,.rules-grid,.players-list,.gallery-grid{grid-template-columns:1fr;}
 .server-title{font-size:30px;}
+
+.review-card{
+min-width:280px;
+max-width:280px;
+}
+
+@keyframes reviewSlide{
+0%{
+transform:translateX(0);
+}
+100%{
+transform:translateX(calc(-298px * 3));
+}
+}
 }
 
 @media(max-width:600px){
@@ -945,23 +982,43 @@ Vatan için rol, Bayraktar ruhuyla. Kaliteli şehir roleplay deneyimi, aktif eki
 
   <div class="review-title">Oyuncu Yorumları</div>
 
-  <div id="reviewsList" class="reviews-list">
-    <div class="review-card">
-      <div class="review-stars">★★★★★</div>
-      <div class="review-text">10 Numara</div>
-      <div class="review-user">— Bayraktar RolePlay</div>
-    </div>
+  <div class="review-slider">
+    <div class="review-track">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">10 Numara</div>
+        <div class="review-user">— Bayraktar RolePlay</div>
+      </div>
 
-    <div class="review-card">
-      <div class="review-stars">★★★★★</div>
-      <div class="review-text">5 Yıldız</div>
-      <div class="review-user">— Pymx</div>
-    </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">5 Yıldız</div>
+        <div class="review-user">— Pymx</div>
+      </div>
 
-    <div class="review-card">
-      <div class="review-stars">★★★★★</div>
-      <div class="review-text">Sunucu</div>
-      <div class="review-user">— Slesy</div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">Sunucu</div>
+        <div class="review-user">— Slesy</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">10 Numara</div>
+        <div class="review-user">— Bayraktar RolePlay</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">5 Yıldız</div>
+        <div class="review-user">— Pymx</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">Sunucu</div>
+        <div class="review-user">— Slesy</div>
+      </div>
     </div>
   </div>
 </div>

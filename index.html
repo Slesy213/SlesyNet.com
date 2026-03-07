@@ -21,23 +21,19 @@ scroll-behavior:smooth;
 position:fixed;
 top:0;
 left:0;
-width:100vw;
-height:100vh;
+width:100%;
+height:100%;
 object-fit:cover;
-z-index:0;
+z-index:-2;
 pointer-events:none;
-background:#000;
-display:block;
 }
 
-/* OVERLAY */
 body{
 font-family:Arial, sans-serif;
 background:#050a12;
 color:white;
 min-height:100vh;
 overflow-x:hidden;
-position:relative;
 }
 
 body::before{
@@ -45,12 +41,12 @@ content:"";
 position:fixed;
 inset:0;
 background:
-linear-gradient(rgba(5,10,18,0.72), rgba(5,10,18,0.88)),
+linear-gradient(rgba(5,10,18,0.78), rgba(5,10,18,0.90)),
 radial-gradient(circle at 20% 20%, rgba(0,255,255,0.12), transparent 25%),
 radial-gradient(circle at 80% 30%, rgba(0,140,255,0.12), transparent 25%),
 radial-gradient(circle at 50% 80%, rgba(0,255,180,0.08), transparent 30%);
 pointer-events:none;
-z-index:1;
+z-index:-1;
 animation:glowMove 8s ease-in-out infinite alternate;
 }
 
@@ -119,7 +115,7 @@ nav,
 .container,
 footer{
 position:relative;
-z-index:2;
+z-index:1;
 }
 
 header{
@@ -643,42 +639,19 @@ document.getElementById("playersList").innerHTML = '<div class="empty-players">O
 }
 }
 
-function startBackgroundVideo(){
-const video = document.getElementById("bgVideo");
-if(!video) return;
-
-video.muted = true;
-video.defaultMuted = true;
-video.loop = true;
-video.autoplay = true;
-video.playsInline = true;
-
-const tryPlay = () => {
-video.play().catch(err => {
-console.log("Video oynatılamadı:", err);
-});
-};
-
-video.addEventListener("loadeddata", tryPlay, { once:true });
-video.addEventListener("canplay", tryPlay, { once:true });
-
-setTimeout(tryPlay, 500);
-setTimeout(tryPlay, 1500);
-}
-
 window.addEventListener("load", () => {
 setTimeout(hideLoading, 1800);
 players();
 setInterval(players, 5000);
-startBackgroundVideo();
 });
 </script>
 </head>
 
 <body>
 
-<video id="bgVideo" autoplay muted loop playsinline preload="auto">
-<source src="./Download.mp4" type="video/mp4">
+<!-- VIDEO BACKGROUND -->
+<video autoplay muted loop playsinline id="bgVideo">
+<source src="bgvideo.mp4" type="video/mp4">
 </video>
 
 <div id="loadingScreen">
@@ -1026,7 +999,7 @@ Türk temalı güçlü bir FiveM roleplay sunucusudur.
 </div>
 
 <footer>
-© 2026 Bayraktar Roleplay - Tüm hakları saklıdır.
+© 2026 Bayraktar Roleplay - TR
 </footer>
 
 </body>

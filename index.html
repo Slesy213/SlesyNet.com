@@ -16,7 +16,6 @@ html{
 scroll-behavior:smooth;
 }
 
-/* VIDEO BACKGROUND */
 #bgVideo{
 position:fixed;
 top:0;
@@ -320,6 +319,51 @@ box-shadow:0 10px 25px rgba(0,0,0,0.22);
 .info-mini h3{
 margin-bottom:10px;
 color:#8aeaff;
+}
+
+.testimonial-title{
+font-size:26px;
+margin:24px 0 14px;
+color:#7fe8ff;
+}
+
+.testimonials-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:18px;
+}
+
+.testimonial-card{
+background:rgba(30,41,59,0.80);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;
+padding:22px;
+box-shadow:0 10px 25px rgba(0,0,0,0.22);
+transition:0.25s;
+}
+
+.testimonial-card:hover{
+transform:translateY(-5px);
+box-shadow:0 16px 30px rgba(0,0,0,0.30);
+}
+
+.testimonial-stars{
+font-size:18px;
+margin-bottom:10px;
+color:#ffd86b;
+}
+
+.testimonial-text{
+font-size:15px;
+line-height:1.7;
+color:#d7ecff;
+margin-bottom:14px;
+}
+
+.testimonial-user{
+font-size:14px;
+font-weight:bold;
+color:#8fe8ff;
 }
 
 .rules-grid{
@@ -647,7 +691,8 @@ grid-template-columns:repeat(2,1fr);
 .staff,
 .rules-grid,
 .players-list,
-.gallery-grid{
+.gallery-grid,
+.testimonials-grid{
 grid-template-columns:1fr;
 }
 
@@ -880,7 +925,6 @@ playThemeMusic();
 
 <body>
 
-<!-- VIDEO BACKGROUND -->
 <video autoplay muted loop playsinline id="bgVideo" preload="auto">
 <source src="bgvideo.mp4" type="video/mp4">
 </video>
@@ -964,6 +1008,27 @@ Düzenli ekip yapısı, kurallı oyun sistemi ve kaliteli topluluğuyla gerçek 
 <div class="info-mini">
 <h3>🏆 Güçlü Yönetim</h3>
 <p>Aktif yetkili ekibi ve düzenli kontrol sistemi ile daha kaliteli oyun ortamı.</p>
+</div>
+</div>
+
+<div class="testimonial-title">Oyuncu Yorumları</div>
+<div class="testimonials-grid">
+<div class="testimonial-card">
+<div class="testimonial-stars">★★★★★</div>
+<div class="testimonial-text">Uzun zamandır böyle kaliteli ve düzenli bir FiveM sunucusu görmemiştim. Ortam çok iyi, roller çok keyifli.</div>
+<div class="testimonial-user">— Kerem27</div>
+</div>
+
+<div class="testimonial-card">
+<div class="testimonial-stars">★★★★★</div>
+<div class="testimonial-text">Yönetim ekibi aktif, destek hızlı, map ve sistemler de baya kaliteli. Arkadaş ortamıyla oynaması çok sarıyor.</div>
+<div class="testimonial-user">— MertK</div>
+</div>
+
+<div class="testimonial-card">
+<div class="testimonial-stars">★★★★★</div>
+<div class="testimonial-text">İllegal ve legal denge çok iyi ayarlanmış. Yeni başlayan biri için de rahat alışılan bir sunucu olmuş.</div>
+<div class="testimonial-user">— RusherTR</div>
 </div>
 </div>
 </div>

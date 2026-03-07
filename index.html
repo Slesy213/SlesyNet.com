@@ -1,1216 +1,437 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bayraktar Roleplay</title>
-
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
-}
-
-#bgVideo{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:-2;
-pointer-events:none;
-}
-
-body{
-font-family:Arial, sans-serif;
-background:#050a12;
-color:white;
-min-height:100vh;
-overflow-x:hidden;
-}
-
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:
-linear-gradient(rgba(5,10,18,0.78), rgba(5,10,18,0.90)),
-radial-gradient(circle at 20% 20%, rgba(0,255,255,0.12), transparent 25%),
-radial-gradient(circle at 80% 30%, rgba(0,140,255,0.12), transparent 25%),
-radial-gradient(circle at 50% 80%, rgba(0,255,180,0.08), transparent 30%);
-pointer-events:none;
-z-index:-1;
-animation:glowMove 8s ease-in-out infinite alternate;
-}
-
-@keyframes glowMove{
-0%{transform:translateY(0px);}
-100%{transform:translateY(-20px);}
-}
-
-#loadingScreen{
-position:fixed;
-inset:0;
-background:linear-gradient(180deg,#050a12,#091220);
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:99999;
-transition:opacity .6s ease, visibility .6s ease;
-}
-
-#loadingScreen.hidden{
-opacity:0;
-visibility:hidden;
-}
-
-.loader-logo{
-width:130px;
-max-width:60%;
-margin-bottom:18px;
-filter:drop-shadow(0 0 18px rgba(77,234,255,0.35));
-animation:floatLogo 2.2s ease-in-out infinite;
-}
-
-.loader-title{
-font-size:28px;
-font-weight:800;
-color:#7fe8ff;
-margin-bottom:16px;
-text-align:center;
-}
-
-.loader-bar{
-width:240px;
-height:10px;
-background:rgba(255,255,255,0.08);
-border-radius:999px;
-overflow:hidden;
-border:1px solid rgba(255,255,255,0.08);
-}
-
-.loader-fill{
-width:0%;
-height:100%;
-background:linear-gradient(90deg,#16d9ff,#3b82f6);
-border-radius:999px;
-animation:loadingFill 1.8s ease forwards;
-}
-
-@keyframes loadingFill{
-from{width:0%;}
-to{width:100%;}
-}
-
-header,
-nav,
-.container,
-footer{
-position:relative;
-z-index:1;
-}
-
-header{
-text-align:center;
-padding:30px 20px 20px;
-animation:fadeDown 1s ease;
-}
-
-.top-banner{
-width:100%;
-max-width:1600px;
-border-radius:20px;
-display:block;
-margin:0 auto 20px;
-box-shadow:0 10px 35px rgba(0,0,0,0.45);
-border:1px solid rgba(255,255,255,0.08);
-}
-
-.logo{
-width:240px;
-max-width:70%;
-display:block;
-margin:10px auto 10px;
-filter:drop-shadow(0 0 20px rgba(77,234,255,0.35));
-animation:floatLogo 3.5s ease-in-out infinite;
-}
-
-@keyframes floatLogo{
-0%{transform:translateY(0);}
-50%{transform:translateY(-10px);}
-100%{transform:translateY(0);}
-}
-
-.server-title{
-font-size:42px;
-font-weight:900;
-letter-spacing:1px;
-margin-top:10px;
-text-shadow:0 0 15px rgba(0,255,255,0.18);
-}
-
-.server-subtitle{
-margin-top:10px;
-font-size:17px;
-color:#cbe8ff;
-max-width:800px;
-margin-left:auto;
-margin-right:auto;
-line-height:1.6;
-}
-
-.hero-buttons{
-margin-top:22px;
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:14px;
-}
-
-.connect,
-.discord{
-display:inline-block;
-padding:14px 24px;
-border-radius:12px;
-text-decoration:none;
-color:white;
-font-weight:bold;
-transition:0.25s;
-box-shadow:0 10px 25px rgba(0,0,0,0.25);
-}
-
-.connect{
-background:linear-gradient(135deg,#16a34a,#22c55e);
-}
-
-.discord{
-background:linear-gradient(135deg,#4f46e5,#5865F2);
-}
-
-.connect:hover,
-.discord:hover{
-transform:translateY(-3px) scale(1.03);
-}
-
-.stats-panel{
-max-width:1100px;
-margin:30px auto 0;
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:16px;
-padding:0 20px;
-animation:fadeUp 1.1s ease;
-}
-
-.stat-box{
-background:rgba(17,24,39,0.72);
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:18px;
-padding:22px;
-text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.25);
-}
-
-.stat-box h3{
-font-size:15px;
-color:#9edfff;
-margin-bottom:10px;
-}
-
-.stat-box p{
-font-size:26px;
-font-weight:bold;
-color:white;
-}
-
-nav{
-margin:30px auto 0;
-max-width:1100px;
-padding:0 20px;
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:12px;
-animation:fadeUp 1.2s ease;
-}
-
-nav button{
-padding:12px 22px;
-border:none;
-border-radius:12px;
-background:rgba(37,99,235,0.82);
-backdrop-filter:blur(10px);
-color:white;
-cursor:pointer;
-font-weight:bold;
-font-size:15px;
-transition:0.25s;
-}
-
-nav button:hover{
-background:#1d4ed8;
-transform:translateY(-2px);
-}
-
-.container{
-max-width:1100px;
-margin:30px auto;
-padding:0 20px 30px;
-}
-
-.page{
-display:none;
-animation:fadeUp 0.5s ease;
-}
-
-.page.active{
-display:block;
-}
-
-.card{
-background:rgba(15,23,42,0.76);
-backdrop-filter:blur(10px);
-padding:24px;
-margin-bottom:18px;
-border-radius:18px;
-border:1px solid rgba(255,255,255,0.08);
-box-shadow:0 12px 30px rgba(0,0,0,0.24);
-}
-
-.card h2{
-margin-bottom:12px;
-font-size:28px;
-color:#7fe8ff;
-}
-
-.card p{
-line-height:1.7;
-color:#d5e9ff;
-}
-
-.home-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
-margin-top:20px;
-}
-
-.info-mini{
-background:rgba(30,41,59,0.75);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:16px;
-padding:20px;
-transition:0.25s;
-}
-
-.info-mini:hover{
-transform:translateY(-4px);
-box-shadow:0 10px 25px rgba(0,0,0,0.22);
-}
-
-.info-mini h3{
-margin-bottom:10px;
-color:#8aeaff;
-}
-
-.review-title{
-font-size:26px;
-margin:24px 0 14px;
-color:#7fe8ff;
-}
-
-.review-slider{
-position:relative;
-overflow:hidden;
-width:100%;
-margin-top:18px;
-}
-
-.review-track{
-display:flex;
-gap:18px;
-width:max-content;
-animation:reviewSlide 18s linear infinite;
-}
-
-.review-slider:hover .review-track{
-animation-play-state:paused;
-}
-
-.review-card{
-min-width:340px;
-max-width:340px;
-background:rgba(30,41,59,0.80);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:18px;
-padding:22px;
-box-shadow:0 10px 25px rgba(0,0,0,0.22);
-transition:0.25s;
-flex-shrink:0;
-}
-
-.review-card:hover{
-transform:translateY(-5px);
-box-shadow:0 16px 30px rgba(0,0,0,0.30);
-}
-
-.review-stars{
-font-size:18px;
-margin-bottom:10px;
-color:#ffd86b;
-}
-
-.review-text{
-font-size:15px;
-line-height:1.7;
-color:#d7ecff;
-margin-bottom:14px;
-word-break:break-word;
-}
-
-.review-user{
-font-size:14px;
-font-weight:bold;
-color:#8fe8ff;
-}
-
-@keyframes reviewSlide{
-0%{
-transform:translateX(0);
-}
-100%{
-transform:translateX(calc(-358px * 3));
-}
-}
-
-.rules-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:16px;
-}
-
-.rule{
-background:rgba(30,41,59,0.78);
-padding:18px;
-border-radius:16px;
-border:1px solid rgba(255,255,255,0.06);
-line-height:1.6;
-}
-
-.staff-title{
-font-size:26px;
-margin:15px 0;
-color:#7fe8ff;
-}
-
-.staff{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
-}
-
-.staff-card{
-background:rgba(30,41,59,0.82);
-border-radius:18px;
-padding:20px;
-text-align:center;
-border:1px solid rgba(255,255,255,0.08);
-transition:0.3s ease;
-overflow:hidden;
-position:relative;
-}
-
-.staff-card::before{
-content:"";
-position:absolute;
-inset:-1px;
-background:linear-gradient(135deg, rgba(0,255,255,0.0), rgba(0,255,255,0.22), rgba(59,130,246,0.0));
-opacity:0;
-transition:0.3s ease;
-pointer-events:none;
-}
-
-.staff-card:hover{
-transform:translateY(-8px) scale(1.03);
-box-shadow:0 18px 35px rgba(0,0,0,0.35), 0 0 22px rgba(0,255,255,0.16);
-border-color:rgba(127,232,255,0.35);
-}
-
-.staff-card:hover::before{
-opacity:1;
-}
-
-.staff-card img{
-width:100%;
-height:220px;
-object-fit:cover;
-border-radius:14px;
-margin-bottom:14px;
-border:1px solid rgba(255,255,255,0.08);
-transition:0.3s ease;
-}
-
-.staff-card:hover img{
-transform:scale(1.03);
-filter:brightness(1.05);
-}
-
-.staff-card h3{
-font-size:22px;
-margin-bottom:8px;
-}
-
-.staff-role{
-display:inline-block;
-padding:8px 14px;
-border-radius:999px;
-background:rgba(0,183,255,0.16);
-color:#8fe8ff;
-font-size:14px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.staff-card p{
-font-size:14px;
-line-height:1.6;
-color:#cfe6ff;
-}
-
-.players-list{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:14px;
-margin-top:18px;
-}
-
-.player-item{
-background:rgba(30,41,59,0.78);
-padding:16px;
-border-radius:14px;
-border:1px solid rgba(255,255,255,0.08);
-}
-
-.player-name{
-font-weight:bold;
-color:#ffffff;
-margin-bottom:6px;
-}
-
-.player-id{
-font-size:13px;
-color:#8fe8ff;
-}
-
-.empty-players{
-color:#cfe6ff;
-padding:12px 0;
-}
-
-.page-button{
-display:inline-block;
-width:100%;
-padding:18px;
-border:none;
-border-radius:16px;
-background:rgba(30,41,59,0.75);
-color:#ffffff;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-transition:0.25s;
-border:1px solid rgba(255,255,255,0.08);
-}
-
-.page-button:hover{
-transform:translateY(-4px);
-background:rgba(37,99,235,0.85);
-box-shadow:0 10px 25px rgba(0,0,0,0.22);
-}
-
-.gallery-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
-margin-top:20px;
-}
-
-.gallery-card{
-background:rgba(30,41,59,0.78);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:18px;
-padding:14px;
-box-shadow:0 10px 25px rgba(0,0,0,0.22);
-}
-
-.gallery-card img{
-width:100%;
-height:260px;
-object-fit:cover;
-border-radius:14px;
-display:block;
-cursor:pointer;
-transition:0.25s ease;
-}
-
-.gallery-card img:hover{
-transform:scale(1.02);
-}
-
-.back-btn{
-display:inline-block;
-margin-top:18px;
-padding:12px 20px;
-border:none;
-border-radius:12px;
-background:rgba(37,99,235,0.82);
-color:white;
-font-weight:bold;
-cursor:pointer;
-transition:0.25s;
-}
-
-.back-btn:hover{
-background:#1d4ed8;
-transform:translateY(-2px);
-}
-
-.lightbox{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.88);
-z-index:999999;
-justify-content:center;
-align-items:center;
-padding:30px;
-cursor:pointer;
-}
-
-.lightbox.active{
-display:flex;
-}
-
-.lightbox img{
-max-width:95%;
-max-height:90vh;
-border-radius:16px;
-box-shadow:0 0 30px rgba(0,0,0,0.6);
-border:1px solid rgba(255,255,255,0.15);
-cursor:default;
-}
-
-.lightbox-close{
-position:absolute;
-top:20px;
-right:24px;
-font-size:40px;
-font-weight:bold;
-color:white;
-cursor:pointer;
-line-height:1;
-user-select:none;
-}
-
-.lightbox-nav{
-position:absolute;
-top:50%;
-transform:translateY(-50%);
-font-size:52px;
-font-weight:bold;
-color:white;
-background:rgba(0,0,0,0.28);
-border:1px solid rgba(255,255,255,0.12);
-width:64px;
-height:64px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-user-select:none;
-transition:0.25s;
-}
-
-.lightbox-nav:hover{
-background:rgba(255,255,255,0.12);
-transform:translateY(-50%) scale(1.06);
-}
-
-.lightbox-prev{
-left:20px;
-}
-
-.lightbox-next{
-right:20px;
-}
-
-.music-toggle{
-position:fixed;
-right:20px;
-bottom:20px;
-z-index:9999;
-border:none;
-border-radius:14px;
-padding:14px 18px;
-font-size:15px;
-font-weight:bold;
-cursor:pointer;
-color:white;
-background:linear-gradient(135deg,#4f46e5,#5865F2);
-box-shadow:0 10px 25px rgba(0,0,0,0.30);
-transition:0.25s;
-}
-
-.music-toggle:hover{
-transform:translateY(-3px) scale(1.03);
-background:linear-gradient(135deg,#4338ca,#4f46e5);
-}
-
-footer{
-text-align:center;
-padding:22px;
-background:rgba(17,24,39,0.82);
-backdrop-filter:blur(10px);
-margin-top:40px;
-border-top:1px solid rgba(255,255,255,0.06);
-color:#c9dfff;
-}
-
-@keyframes fadeDown{
-from{opacity:0;transform:translateY(-25px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(25px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-@media(max-width:950px){
-.stats-panel{grid-template-columns:repeat(2,1fr);}
-.home-grid,.staff,.rules-grid,.players-list,.gallery-grid{grid-template-columns:1fr;}
-.server-title{font-size:30px;}
-
-.review-card{
-min-width:280px;
-max-width:280px;
-}
-
-@keyframes reviewSlide{
-0%{
-transform:translateX(0);
-}
-100%{
-transform:translateX(calc(-298px * 3));
-}
-}
-}
-
-@media(max-width:600px){
-.stats-panel{grid-template-columns:1fr;}
-.logo{width:180px;}
-.server-title{font-size:25px;}
-nav button{width:100%;}
-.lightbox-nav{width:52px;height:52px;font-size:40px;}
-.lightbox-prev{left:10px;}
-.lightbox-next{right:10px;}
-.music-toggle{right:12px;bottom:12px;padding:12px 14px;font-size:14px;}
-}
-</style>
-
-<script>
-let galleryMap = {
-illegal: ["illegal1.png", "illegal2.png", "illegal3.png"],
-meslek: ["meslek1.png", "meslek2.png", "meslek3.png"]
-};
-
-let currentGallery = "illegal";
-let currentImageIndex = 0;
-let musicStarted = false;
-
-function showPage(page){
-document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
-document.getElementById(page).classList.add("active");
-window.scrollTo({top: 0, behavior: "smooth"});
-}
-
-function hideLoading(){
-const loading = document.getElementById("loadingScreen");
-if(loading){
-loading.classList.add("hidden");
-setTimeout(() => {
-loading.style.display = "none";
-}, 700);
-}
-}
-
-async function players(){
-try{
-const start = performance.now();
-const r = await fetch("https://servers-frontend.fivem.net/api/servers/single/dal65y");
-const d = await r.json();
-const end = performance.now();
-const ping = Math.round(end - start);
-
-document.getElementById("online").innerText = d.Data.clients + " / " + d.Data.sv_maxclients;
-document.getElementById("status").innerText = "Aktif";
-document.getElementById("serverid").innerText = "dal65y";
-document.getElementById("resources").innerText = d.Data.resources ? d.Data.resources.length : "363";
-document.getElementById("ping").innerText = ping + " ms";
-
-const playersBox = document.getElementById("playersList");
-playersBox.innerHTML = "";
-
-const playerList = d.Data.players || [];
-
-if(playerList.length === 0){
-playersBox.innerHTML = '<div class="empty-players">Şu anda oyuncu listesi boş görünüyor.</div>';
-}else{
-playerList.forEach(player => {
-const playerName = player.name || "İsimsiz Oyuncu";
-const playerId = player.id ?? "-";
-
-playersBox.innerHTML += `
-<div class="player-item">
-<div class="player-name">${playerName}</div>
-<div class="player-id">Oyuncu ID: ${playerId}</div>
-</div>
-`;
-});
-}
-
-}catch{
-document.getElementById("online").innerText = "Gösterilemiyor";
-document.getElementById("status").innerText = "Kontrol Edilemedi";
-document.getElementById("serverid").innerText = "dal65y";
-document.getElementById("resources").innerText = "Bilinmiyor";
-document.getElementById("ping").innerText = "Bilinmiyor";
-document.getElementById("playersList").innerHTML = '<div class="empty-players">Oyuncu listesi alınamadı.</div>';
-}
-}
-
-function openLightbox(src, galleryName){
-currentGallery = galleryName;
-const currentList = galleryMap[currentGallery];
-const fileName = src.split("/").pop();
-currentImageIndex = currentList.indexOf(fileName);
-
-if(currentImageIndex === -1){
-currentImageIndex = 0;
-}
-
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightboxImg");
-lightboxImg.src = currentList[currentImageIndex];
-lightbox.classList.add("active");
-document.body.style.overflow = "hidden";
-}
-
-function closeLightbox(){
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightboxImg");
-lightbox.classList.remove("active");
-lightboxImg.src = "";
-document.body.style.overflow = "auto";
-}
-
-function nextImage(){
-const currentList = galleryMap[currentGallery];
-currentImageIndex++;
-if(currentImageIndex >= currentList.length){
-currentImageIndex = 0;
-}
-document.getElementById("lightboxImg").src = currentList[currentImageIndex];
-}
-
-function prevImage(){
-const currentList = galleryMap[currentGallery];
-currentImageIndex--;
-if(currentImageIndex < 0){
-currentImageIndex = currentList.length - 1;
-}
-document.getElementById("lightboxImg").src = currentList[currentImageIndex];
-}
-
-function playThemeMusic(){
-const music = document.getElementById("themeMusic");
-const button = document.getElementById("musicToggleBtn");
-if(!music) return;
-
-music.play().then(() => {
-button.innerText = "🔊 Müziği Kapat";
-musicStarted = true;
-}).catch(() => {
-button.innerText = "🔇 Müziği Aç";
-});
-}
-
-function toggleMusic(){
-const music = document.getElementById("themeMusic");
-const button = document.getElementById("musicToggleBtn");
-if(!music) return;
-
-if(music.paused){
-music.play().then(() => {
-button.innerText = "🔊 Müziği Kapat";
-musicStarted = true;
-}).catch(() => {
-button.innerText = "🔇 Müziği Aç";
-});
-}else{
-music.pause();
-button.innerText = "🔇 Müziği Aç";
-}
-}
-
-document.addEventListener("keydown", function(e){
-const lightbox = document.getElementById("lightbox");
-
-if(lightbox.classList.contains("active")){
-if(e.key === "Escape"){
-closeLightbox();
-}else if(e.key === "ArrowRight"){
-nextImage();
-}else if(e.key === "ArrowLeft"){
-prevImage();
-}
-return;
-}
-
-const meslekPage = document.getElementById("meslekPage");
-if(meslekPage && meslekPage.classList.contains("active") && e.key === "Escape"){
-showPage("about");
-}
-});
-
-document.addEventListener("click", function firstStartMusic(){
-if(musicStarted) return;
-playThemeMusic();
-document.removeEventListener("click", firstStartMusic);
-});
-
-window.addEventListener("load", () => {
-setTimeout(hideLoading, 1800);
-players();
-setInterval(players, 5000);
-playThemeMusic();
-});
-</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayraktar Roleplay</title>
+    <meta name="description" content="Bayraktar Roleplay - Vatan için rol, Bayraktar ruhuyla.">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <!-- Top Navbar -->
+    <nav class="top-navbar">
+        <div class="nav-brand">
+            <span class="logo-text">Bayraktar<span>RP</span></span>
+        </div>
 
-<video autoplay muted loop playsinline id="bgVideo" preload="auto">
-<source src="bgvideo.mp4" type="video/mp4">
-</video>
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
 
-<div id="loadingScreen">
-<img src="logo.png.png" class="loader-logo" alt="Bayraktar Logo">
-<div class="loader-title">Bayraktar Roleplay Yükleniyor...</div>
-<div class="loader-bar">
-<div class="loader-fill"></div>
-</div>
-</div>
+        <div class="nav-menu">
+            <button class="nav-btn active" onclick="showPage('home')"><i class="fas fa-home"></i> Ana Sayfa</button>
+            <button class="nav-btn" onclick="showPage('rules')"><i class="fas fa-gavel"></i> Kurallar</button>
+            <button class="nav-btn" onclick="showPage('staff')"><i class="fas fa-user-shield"></i> Yetkililer</button>
+            <button class="nav-btn" onclick="showPage('about')"><i class="fas fa-info-circle"></i> Tanıtım</button>
+            <button class="nav-btn" onclick="showPage('illegalPage')"><i class="fas fa-mask"></i> İllegal</button>
+            <button class="nav-btn" onclick="showPage('playersPage')"><i class="fas fa-list-ol"></i> Oyuncular</button>
+        </div>
 
-<header>
-<img src="banner.png" class="top-banner" alt="Bayraktar Banner">
-<img src="logo.png.png" class="logo" alt="Bayraktar Logo">
+        <div class="nav-actions">
+            <a class="nav-discord" href="https://discord.gg/bayraktarrp" target="_blank"><i
+                    class="fab fa-discord"></i></a>
+        </div>
+    </nav>
 
-<h1 class="server-title">Bayraktar Roleplay</h1>
-<p class="server-subtitle">
-Vatan için rol, Bayraktar ruhuyla. Kaliteli şehir roleplay deneyimi, aktif ekip, güçlü sistemler ve modern sunucu yapısı.
-</p>
+    <!-- Background Video -->
+    <video autoplay muted loop playsinline id="bgVideo" preload="auto">
+        <source src="bgvideo.mp4" type="video/mp4">
+    </video>
 
-<div class="hero-buttons">
-<a class="connect" href="https://cfx.re/join/dal65y" target="_blank">🎮 Sunucuya Bağlan</a>
-<a class="discord" href="https://discord.gg/bayraktarrp" target="_blank">💎 Discord'a Katıl</a>
-</div>
-</header>
-
-<div class="stats-panel">
-<div class="stat-box"><h3>Online Oyuncu</h3><p id="online">Yükleniyor...</p></div>
-<div class="stat-box"><h3>Sunucu Durumu</h3><p id="status">Kontrol Ediliyor</p></div>
-<div class="stat-box"><h3>Sunucu ID</h3><p id="serverid">dal65y</p></div>
-<div class="stat-box"><h3>Kaynak Sayısı</h3><p id="resources">Yükleniyor...</p></div>
-<div class="stat-box"><h3>Ping</h3><p id="ping">Yükleniyor...</p></div>
-</div>
-
-<nav>
-<button onclick="showPage('home')">Ana Sayfa</button>
-<button onclick="showPage('rules')">Kurallar</button>
-<button onclick="showPage('staff')">Yetkili Kadrosu</button>
-<button onclick="showPage('about')">Sunucu Tanıtımı</button>
-<button onclick="showPage('illegalPage')">Illegal Bölgeler</button>
-<button onclick="showPage('playersPage')">Oyuncu Listesi</button>
-</nav>
-
-<div class="container">
-
-<div id="home" class="page active">
-  <div class="card">
-    <h2>Bayraktar Roleplay Ana Sayfa</h2>
-    <p>
-    Bayraktar Roleplay; Türk temalı, modern ve güçlü bir şehir roleplay ortamı sunar.
-    Düzenli ekip yapısı, kurallı oyun sistemi ve kaliteli topluluğuyla gerçek RP sunucularına yakın bir deneyim sağlar.
-    </p>
-  </div>
-
-  <div class="home-grid">
-    <div class="info-mini">
-      <h3>Gelişmiş Map Türk Tema</h3>
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <img src="logo.png.png" class="loader-logo" alt="Bayraktar Logo"
+            onerror="this.src='https://via.placeholder.com/130?text=Logo'">
+        <div class="loader-title">Bayraktar Roleplay Yükleniyor...</div>
+        <div class="loader-bar">
+            <div class="loader-fill"></div>
+        </div>
     </div>
 
-    <div class="info-mini">
-      <h3>🎮 Aktif RP Deneyimi</h3>
-      <p>Legal ve illegal rol dengesi ile uzun süre keyifli oyun deneyimi.</p>
+    <!-- Header Section -->
+    <header>
+        <img src="banner.png" class="top-banner" alt="Bayraktar Banner" onerror="this.style.display='none'">
+        <img src="logo.png.png" class="logo" alt="Bayraktar Logo"
+            onerror="this.src='https://via.placeholder.com/240?text=Bayraktar+Roleplay'">
+
+        <h1 class="server-title">Bayraktar Roleplay</h1>
+        <p class="server-subtitle">
+            Vatan için rol, Bayraktar ruhuyla. Kaliteli şehir roleplay deneyimi, aktif ekip, güçlü sistemler ve modern
+            sunucu yapısı.
+        </p>
+
+        <div class="hero-buttons">
+            <a class="btn-connect" href="https://cfx.re/join/dal65y" target="_blank">
+                <i class="fas fa-gamepad"></i> Sunucuya Bağlan
+            </a>
+            <a class="btn-discord" href="https://discord.gg/bayraktarrp" target="_blank">
+                <i class="fab fa-discord"></i> Discord'a Katıl
+            </a>
+        </div>
+    </header>
+
+    <!-- Stats Panel -->
+    <div class="stats-panel glass-panel">
+        <div class="stat-box">
+            <i class="fas fa-users"></i>
+            <h3>Online Oyuncu</h3>
+            <p id="online">Yükleniyor...</p>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-server"></i>
+            <h3>Sunucu Durumu</h3>
+            <p id="status" class="status-badge">Kontrol Ediliyor</p>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-fingerprint"></i>
+            <h3>Sunucu ID</h3>
+            <p id="serverid">dal65y</p>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-cubes"></i>
+            <h3>Kaynak Sayısı</h3>
+            <p id="resources">Yükleniyor...</p>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-wifi"></i>
+            <h3>Ping</h3>
+            <p id="ping">Yükleniyor...</p>
+        </div>
     </div>
 
-    <div class="info-mini">
-      <h3>🏆 Güçlü Yönetim</h3>
-      <p>Aktif yetkili ekibi ve düzenli kontrol sistemi ile daha kaliteli oyun ortamı.</p>
+    <!-- Content Container -->
+    <main class="container">
+
+        <!-- 1. Home Page -->
+        <div id="home" class="page active">
+            <div class="card glass-card">
+                <h2><i class="fas fa-home"></i> Ana Sayfa</h2>
+                <p>
+                    Bayraktar Roleplay; Türk temalı, modern ve güçlü bir şehir roleplay ortamı sunar. Düzenli ekip
+                    yapısı, kurallı oyun sistemi ve kaliteli topluluğuyla gerçek RP sunucularına yakın bir deneyim
+                    sağlar.
+                </p>
+            </div>
+
+            <div class="grid-3">
+                <div class="info-mini">
+                    <div class="icon-circle"><i class="fas fa-map-marked-alt"></i></div>
+                    <h3>Gelişmiş Map Türk Tema</h3>
+                    <p>Tamamen Türkiye temasına uygun olarak düzenlenmiş harita detayları ve mekanlar.</p>
+                </div>
+                <div class="info-mini">
+                    <div class="icon-circle"><i class="fas fa-theater-masks"></i></div>
+                    <h3>Aktif RP Deneyimi</h3>
+                    <p>Legal ve illegal rol dengesi ile uzun süre keyifli oyun deneyimi.</p>
+                </div>
+                <div class="info-mini">
+                    <div class="icon-circle"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Güçlü Yönetim</h3>
+                    <p>Aktif yetkili ekibi ve düzenli kontrol sistemi ile daha kaliteli oyun ortamı.</p>
+                </div>
+            </div>
+
+            <h2 class="section-title">Oyuncu Yorumları</h2>
+            <div class="review-slider">
+                <div class="review-track">
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <div class="review-text">"10 Numara bir rol deneyimi, ekonomi çok dengeli."</div>
+                        <div class="review-user">— Bayraktar RolePlay</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <div class="review-text">"Kaliteli sunucu, FPS drobu olmayan ender yerlerden."</div>
+                        <div class="review-user">— Pymx</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <div class="review-text">"Yönetim ekibi aşırı ilgili, sorunlarımız anında çözülüyor."</div>
+                        <div class="review-user">— Slesy</div>
+                    </div>
+                    <!-- Duplicate for infinite scroll -->
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <div class="review-text">"10 Numara bir rol deneyimi, ekonomi çok dengeli."</div>
+                        <div class="review-user">— Bayraktar RolePlay</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <div class="review-text">"Kaliteli sunucu, FPS drobu olmayan ender yerlerden."</div>
+                        <div class="review-user">— Pymx</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <div class="review-text">"Yönetim ekibi aşırı ilgili, sorunlarımız anında çözülüyor."</div>
+                        <div class="review-user">— Slesy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Rules Page -->
+        <div id="rules" class="page">
+            <div class="card glass-card">
+                <h2><i class="fas fa-gavel"></i> Bayraktar Roleplay Ceza Sistemi</h2>
+                <p>Kurallara uyulması tüm oyuncularımızın adil ve keyifli bir ortamda rol yapabilmesi için zorunludur.
+                </p>
+            </div>
+            <div class="grid-2 rules-grid">
+                <div class="rule-card">
+                    <div class="rule-title">DDK</div>
+                    <div class="rule-pen">PERMA</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">MDK</div>
+                    <div class="rule-pen">PERMA</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">Silah veya Eşya Çoğaltmak (DUPE)</div>
+                    <div class="rule-pen">PERMA</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">Sanal Mafiklik</div>
+                    <div class="rule-pen">PERMA</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">Donate Satışı/Alışı (OOC TL)</div>
+                    <div class="rule-pen">PERMA</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">Kadın Oyuncuya Uygunsuz Davranış</div>
+                    <div class="rule-pen">PERMA</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">Destekte ADK</div>
+                    <div class="rule-pen">PERMA</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">ADK</div>
+                    <div class="rule-pen">3 gün WL</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">IC Dolandırıcılık</div>
+                    <div class="rule-pen">4 gün WL</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">Departman Baskını</div>
+                    <div class="rule-pen">PERMA</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">RDM / VDM</div>
+                    <div class="rule-pen">2 gün WL</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">Irkçılık</div>
+                    <div class="rule-pen">2 gün WL</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">Polis Aracı Çalmak</div>
+                    <div class="rule-pen">2 gün WL</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">Combatlog</div>
+                    <div class="rule-pen">3 gün WL</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">Fear RP / Power Gaming / Meta Gaming</div>
+                    <div class="rule-pen">3x Uyarı</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Staff Page -->
+        <div id="staff" class="page">
+            <div class="card glass-card">
+                <h2><i class="fas fa-user-shield"></i> Yetkili Kadrosu</h2>
+                <p>Sunucu düzeni ve oyuncu desteği için görev alan ekibimiz burada yer alır.</p>
+            </div>
+
+            <h3 class="section-title">Kurucu Liste</h3>
+            <div class="grid-3 staff-grid">
+                <div class="staff-card">
+                    <img src="logo.png.png" alt="Netrios"
+                        onerror="this.src='https://via.placeholder.com/220?text=Netrios'">
+                    <div class="staff-info">
+                        <h3>Netrios</h3>
+                        <span class="staff-role founder">Kurucu</span>
+                        <p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <img src="logo.png.png" alt="Makarov"
+                        onerror="this.src='https://via.placeholder.com/220?text=Makarov'">
+                    <div class="staff-info">
+                        <h3>Makarov</h3>
+                        <span class="staff-role founder">Kurucu</span>
+                        <p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <img src="logo.png.png" alt="Teyxhy"
+                        onerror="this.src='https://via.placeholder.com/220?text=Teyxhy'">
+                    <div class="staff-info">
+                        <h3>Teyxhy</h3>
+                        <span class="staff-role founder">Kurucu</span>
+                        <p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. About Page -->
+        <div id="about" class="page">
+            <div class="video-container">
+                <video autoplay muted loop playsinline id="aboutVideo" preload="auto">
+                    <source src="bgvideo.mp4" type="video/mp4">
+                    <!-- You can specify a different video like about-bg.mp4 here if you have one -->
+                </video>
+                <div class="video-overlay"></div>
+
+                <div class="about-content">
+                    <div class="card glass-card premium-glass">
+                        <h2><i class="fas fa-info-circle"></i> Sunucu Tanıtımı</h2>
+                        <p class="lead-text">
+                            Bayraktar Roleplay; legal ve illegal rol sistemlerini dengeli sunan, aktif yönetim ekibi ile
+                            desteklenen, Türk temalı güçlü bir FiveM roleplay sunucusudur.
+                        </p>
+                    </div>
+
+                    <div class="grid-3 about-actions">
+                        <div class="info-mini premium-mini">
+                            <div class="icon-circle discord-col glow-icon"><i class="fab fa-discord"></i></div>
+                            <h3>Discord Kareler</h3>
+                            <p class="small-text">Oyun içi fotoğraflarımız.</p>
+                            <button class="page-button"
+                                onclick="window.open('https://discord.com/channels/1425146860888391722/1425164977228218519', '_blank')">Göz
+                                At</button>
+                        </div>
+                        <div class="info-mini premium-mini">
+                            <div class="icon-circle work-col glow-icon"><i class="fas fa-briefcase"></i></div>
+                            <h3>Meslekler</h3>
+                            <p class="small-text">Dinamik ekonomi sistemi.</p>
+                            <button class="page-button" onclick="showPage('meslekPage')">İncele</button>
+                        </div>
+                        <div class="info-mini premium-mini">
+                            <div class="icon-circle ill-col glow-icon"><i class="fas fa-skull"></i></div>
+                            <h3>İllegal</h3>
+                            <p class="small-text">Karanlık dünya ve yapılar.</p>
+                            <button class="page-button" onclick="showPage('illegalPage')">Keşfet</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Illegal Regions Page -->
+        <div id="illegalPage" class="page">
+            <div class="card glass-card">
+                <h2><i class="fas fa-skull"></i> Illegal Bölgeler</h2>
+                <p>Sunucudaki illegal bölgeler aşağıda görüntülenmektedir. Resimleri büyütmek için tıklayın.</p>
+
+                <div class="gallery-grid">
+                    <div class="gallery-card">
+                        <img src="illegal1.png" alt="Illegal Bölge 1" onclick="openLightbox(this.src, 'illegal')"
+                            onerror="this.src='https://via.placeholder.com/300x200?text=Illegal+1'">
+                    </div>
+                    <div class="gallery-card">
+                        <img src="illegal2.png" alt="Illegal Bölge 2" onclick="openLightbox(this.src, 'illegal')"
+                            onerror="this.src='https://via.placeholder.com/300x200?text=Illegal+2'">
+                    </div>
+                    <div class="gallery-card">
+                        <img src="illegal3.png" alt="Illegal Bölge 3" onclick="openLightbox(this.src, 'illegal')"
+                            onerror="this.src='https://via.placeholder.com/300x200?text=Illegal+3'">
+                    </div>
+                </div>
+
+                <button class="back-btn" onclick="showPage('about')"><i class="fas fa-arrow-left"></i> Sunucu Tanıtımına
+                    Dön</button>
+            </div>
+        </div>
+
+        <!-- 6. Professions Page -->
+        <div id="meslekPage" class="page">
+            <div class="card glass-card">
+                <h2><i class="fas fa-briefcase"></i> Meslek ve Ticaret</h2>
+                <p>Sunucudaki meslek ve ticaret alanlarına ait görseller aşağıda yer almaktadır.</p>
+
+                <div class="gallery-grid">
+                    <div class="gallery-card">
+                        <img src="meslek1.png" alt="Meslek Bölgesi 1" onclick="openLightbox(this.src, 'meslek')"
+                            onerror="this.src='https://via.placeholder.com/300x200?text=Meslek+1'">
+                    </div>
+                    <div class="gallery-card">
+                        <img src="meslek2.png" alt="Meslek Bölgesi 2" onclick="openLightbox(this.src, 'meslek')"
+                            onerror="this.src='https://via.placeholder.com/300x200?text=Meslek+2'">
+                    </div>
+                    <div class="gallery-card">
+                        <img src="meslek3.png" alt="Meslek Bölgesi 3" onclick="openLightbox(this.src, 'meslek')"
+                            onerror="this.src='https://via.placeholder.com/300x200?text=Meslek+3'">
+                    </div>
+                </div>
+                <button class="back-btn" onclick="showPage('about')"><i class="fas fa-arrow-left"></i> Sunucu Tanıtımına
+                    Dön</button>
+            </div>
+        </div>
+
+        <!-- 7. Players Page -->
+        <div id="playersPage" class="page">
+            <div class="card glass-card">
+                <h2><i class="fas fa-users"></i> Aktif Oyuncular</h2>
+                <p>Sunucuda anlık olarak aktif olan oyuncular listelenmektedir.</p>
+                <div id="playersList" class="players-list">
+                    <div class="empty-players">
+                        <i class="fas fa-spinner fa-spin"></i> Oyuncu listesi yükleniyor...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2026 <strong>Bayraktar Roleplay</strong> - TR. Tüm Hakları Saklıdır.</p>
+            <div class="socials">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="https://discord.gg/bayraktarrp" target="_blank"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <span class="lightbox-nav lightbox-prev" onclick="event.stopPropagation(); prevImage()">&#10094;</span>
+        <img id="lightboxImg" src="" alt="Büyük Görsel" onclick="event.stopPropagation()">
+        <span class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); nextImage()">&#10095;</span>
     </div>
-  </div>
 
-  <div class="review-title">Oyuncu Yorumları</div>
+    <!-- Theme Music -->
+    <audio id="themeMusic" loop>
+        <source src="tema-muzik.mp3.mp3" type="audio/mpeg">
+    </audio>
 
-  <div class="review-slider">
-    <div class="review-track">
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <div class="review-text">10 Numara</div>
-        <div class="review-user">— Bayraktar RolePlay</div>
-      </div>
+    <button id="musicToggleBtn" class="music-toggle" onclick="toggleMusic()">
+        <i class="fas fa-volume-mute"></i> Müziği Aç
+    </button>
 
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <div class="review-text">5 Yıldız</div>
-        <div class="review-user">— Pymx</div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <div class="review-text">Sunucu</div>
-        <div class="review-user">— Slesy</div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <div class="review-text">10 Numara</div>
-        <div class="review-user">— Bayraktar RolePlay</div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <div class="review-text">5 Yıldız</div>
-        <div class="review-user">— Pymx</div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <div class="review-text">Sunucu</div>
-        <div class="review-user">— Slesy</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="rules" class="page">
-  <div class="card">
-    <h2>BAYRAKTAR ROLEPLAY CEZA SİSTEMİ</h2>
-    <p>Sunucu içi ceza sistemi aşağıda yer almaktadır.</p>
-  </div>
-  <div class="rules-grid">
-    <div class="rule"><strong>DDK</strong><br>PERMA</div>
-    <div class="rule"><strong>MDK</strong><br>PERMA</div>
-    <div class="rule"><strong>Silah veya Eşya Çoğaltmak (DUPE)</strong><br>PERMA</div>
-    <div class="rule"><strong>Sanal Mafiklik</strong><br>PERMA</div>
-    <div class="rule"><strong>Donate Satışı/Alışı (OOC TL)</strong><br>PERMA</div>
-    <div class="rule"><strong>Kadın Oyuncuya Uygunsuz Davranış</strong><br>PERMA</div>
-    <div class="rule"><strong>Destekte ADK</strong><br>PERMA</div>
-    <div class="rule"><strong>ADK</strong><br>3 gün WL</div>
-    <div class="rule"><strong>IC Dolandırıcılık</strong><br>4 gün WL</div>
-    <div class="rule"><strong>Kadın Oyuncuya Hakaret</strong><br>2 gün WL</div>
-    <div class="rule"><strong>Departman Baskını</strong><br>PERMA</div>
-    <div class="rule"><strong>RDM</strong><br>2 gün WL</div>
-    <div class="rule"><strong>Irkçılık</strong><br>2 gün WL</div>
-    <div class="rule"><strong>İllegal RPF</strong><br>2 gün WL</div>
-    <div class="rule"><strong>Low RP</strong><br>2 gün WL</div>
-    <div class="rule"><strong>Hile Kalıntısı</strong><br>2 gün WL + CK</div>
-    <div class="rule"><strong>Rol Block Kuralların Uymama</strong><br>5 gün WL</div>
-    <div class="rule"><strong>Gang-Up</strong><br>10 gün WL</div>
-    <div class="rule"><strong>İzinsiz Market Banka Soymak</strong><br>1 gün WL</div>
-    <div class="rule"><strong>İzinsiz Mekan Baskını</strong><br>10 gün WL</div>
-    <div class="rule"><strong>Combatlog</strong><br>3 gün WL</div>
-    <div class="rule"><strong>Destekte Küfür</strong><br>2 gün WL</div>
-    <div class="rule"><strong>Kısmi RDM</strong><br>4</div>
-    <div class="rule"><strong>İzinsiz ERP</strong><br>2 gün WL</div>
-    <div class="rule"><strong>VDM</strong><br>2 gün WL</div>
-    <div class="rule"><strong>Rolsüz Soygun</strong><br>4X</div>
-    <div class="rule"><strong>Power Gaming</strong><br>3 X</div>
-    <div class="rule"><strong>Bug Abuse</strong><br>4 X</div>
-    <div class="rule"><strong>Fear RP</strong><br>4 X</div>
-    <div class="rule"><strong>PD Soymak</strong><br>2 gün WL</div>
-    <div class="rule"><strong>Güvenli Bölgede Agresif Çıkmak</strong><br>2X</div>
-    <div class="rule"><strong>Güvenli Bölge İhlali</strong><br>2X</div>
-    <div class="rule"><strong>İzinsiz OOC Konuşmak</strong><br>3X</div>
-    <div class="rule"><strong>GhostRP</strong><br>3X</div>
-    <div class="rule"><strong>Meta Gaming</strong><br>3X</div>
-    <div class="rule"><strong>Polis Aracı Çalmak</strong><br>2 gün Wl</div>
-    <div class="rule"><strong>Revenge Kill (RK)</strong><br>3X</div>
-    <div class="rule"><strong>Refuse RP</strong><br>3X</div>
-    <div class="rule"><strong>Kamu Alanında Triggerlamak</strong><br>3 x</div>
-    <div class="rule"><strong>Cop Baiting</strong><br>3X</div>
-    <div class="rule"><strong>Özel Mülk Basmak</strong><br>10 gün WL</div>
-    <div class="rule"><strong>IC’de OOC Konuşmak</strong><br>3X</div>
-    <div class="rule"><strong>Claimsiz Gezmek</strong><br>3X</div>
-    <div class="rule"><strong>İzinsiz E Çekmek</strong><br>1 gün WL</div>
-    <div class="rule"><strong>Non-RP Driving</strong><br>3X</div>
-    <div class="rule"><strong>Mixing</strong><br>3X</div>
-    <div class="rule"><strong>Destekte Saygısızlık</strong><br>3X</div>
-    <div class="rule"><strong>Yetkililere MELEK demek</strong><br>2X</div>
-    <div class="rule"><strong>Fail RP</strong><br>2X</div>
-    <div class="rule"><strong>Destekte Kışkırtma</strong><br>1 gün WL</div>
-    <div class="rule"><strong>PIT</strong><br>2X</div>
-    <div class="rule"><strong>Ölüyken Konuşmak</strong><br>2X</div>
-    <div class="rule"><strong>Destekte Yetkiliye Agresif</strong><br>4 X</div>
-    <div class="rule"><strong>Sarı Sayfalarda Spam Atma</strong><br>2 X</div>
-    <div class="rule"><strong>Donate Satışı/Alışı (IC PARA KARŞILIĞINDA)</strong><br>CK</div>
-    <div class="rule"><strong>WL cezası sonrası DC çık-gir</strong><br>Cezanın 2 katı</div>
-  </div>
-</div>
-
-<div id="staff" class="page">
-  <div class="card">
-    <h2>Yetkili Kadrosu</h2>
-    <p>Sunucu düzeni ve oyuncu desteği için görev alan ekip burada yer alır.</p>
-  </div>
-
-  <div class="staff-title">Kurucu</div>
-  <div class="staff">
-    <div class="staff-card">
-      <img src="logo.png.png" alt="Netrios">
-      <h3>Netrios</h3>
-      <div class="staff-role">Kurucu</div>
-      <p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
-    </div>
-
-    <div class="staff-card">
-      <img src="logo.png.png" alt="Makarov">
-      <h3>Makarov</h3>
-      <div class="staff-role">Kurucu</div>
-      <p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
-    </div>
-
-    <div class="staff-card">
-      <img src="logo.png.png" alt="Teyxhy">
-      <h3>Teyxhy</h3>
-      <div class="staff-role">Kurucu</div>
-      <p>Sunucunun genel yönetimi, sistem kararları ve topluluk düzeninden sorumludur.</p>
-    </div>
-  </div>
-</div>
-
-<div id="about" class="page">
-  <div class="card">
-    <h2>Sunucu Tanıtımı</h2>
-    <p>
-    Bayraktar Roleplay; legal ve illegal rol sistemlerini dengeli sunan, aktif yönetim ekibi ile desteklenen,
-    Türk temalı güçlü bir FiveM roleplay sunucusudur.
-    </p>
-  </div>
-
-  <div class="home-grid">
-    <div class="info-mini">
-      <button class="page-button" onclick="window.open('https://discord.com/channels/1425146860888391722/1425164977228218519', '_blank')">📸 Discord Oyundan Kareler</button>
-    </div>
-
-    <div class="info-mini">
-      <button class="page-button" onclick="showPage('meslekPage')">💼 Meslek ve Ticaret</button>
-    </div>
-
-    <div class="info-mini">
-      <button class="page-button" onclick="showPage('illegalPage')">🔫 Illegal Yapılar</button>
-    </div>
-  </div>
-</div>
-
-<div id="illegalPage" class="page">
-  <div class="card">
-    <h2>Illegal Bölgeler</h2>
-    <p>Sunucudaki illegal bölgeler aşağıda görüntülenmektedir.</p>
-
-    <div class="gallery-grid">
-      <div class="gallery-card">
-        <img src="illegal1.png" alt="Illegal Bölge 1" onclick="openLightbox(this.src, 'illegal')">
-      </div>
-      <div class="gallery-card">
-        <img src="illegal2.png" alt="Illegal Bölge 2" onclick="openLightbox(this.src, 'illegal')">
-      </div>
-      <div class="gallery-card">
-        <img src="illegal3.png" alt="Illegal Bölge 3" onclick="openLightbox(this.src, 'illegal')">
-      </div>
-    </div>
-
-    <button class="back-btn" onclick="showPage('about')">← Sunucu Tanıtımına Dön</button>
-  </div>
-</div>
-
-<div id="meslekPage" class="page">
-  <div class="card">
-    <h2>Meslek ve Ticaret</h2>
-    <p>Sunucudaki meslek ve ticaret alanlarına ait görseller aşağıda yer almaktadır. Çıkmak için ESC tuşuna basabilirsin.</p>
-
-    <div class="gallery-grid">
-      <div class="gallery-card">
-        <img src="meslek1.png" alt="Meslek Bölgesi 1" onclick="openLightbox(this.src, 'meslek')">
-      </div>
-      <div class="gallery-card">
-        <img src="meslek2.png" alt="Meslek Bölgesi 2" onclick="openLightbox(this.src, 'meslek')">
-      </div>
-      <div class="gallery-card">
-        <img src="meslek3.png" alt="Meslek Bölgesi 3" onclick="openLightbox(this.src, 'meslek')">
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="playersPage" class="page">
-  <div class="card">
-    <h2>Oyuncu Listesi</h2>
-    <p>Sunucuda aktif olan oyuncular burada görünür.</p>
-    <div id="playersList" class="players-list">
-      <div class="empty-players">Oyuncu listesi yükleniyor...</div>
-    </div>
-  </div>
-</div>
-
-</div>
-
-<footer>
-© 2026 Bayraktar Roleplay - TR
-</footer>
-
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
-<span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-<span class="lightbox-nav lightbox-prev" onclick="event.stopPropagation(); prevImage()">&#10094;</span>
-<img id="lightboxImg" src="" alt="Büyük Görsel" onclick="event.stopPropagation()">
-<span class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); nextImage()">&#10095;</span>
-</div>
-
-<audio id="themeMusic" loop>
-<source src="tema-muzik.mp3.mp3" type="audio/mpeg">
-</audio>
-
-<button id="musicToggleBtn" class="music-toggle" onclick="toggleMusic()">🔇 Müziği Aç</button>
-
+    <!-- Custom JS -->
+    <script src="script.js"></script>
 </body>
+
 </html>

@@ -21,11 +21,13 @@ scroll-behavior:smooth;
 position:fixed;
 top:0;
 left:0;
-width:100%;
-height:100%;
+width:100vw;
+height:100vh;
 object-fit:cover;
-z-index:-2;
+z-index:0;
 pointer-events:none;
+background:#000;
+display:block;
 }
 
 body{
@@ -34,6 +36,7 @@ background:#050a12;
 color:white;
 min-height:100vh;
 overflow-x:hidden;
+position:relative;
 }
 
 body::before{
@@ -46,7 +49,7 @@ radial-gradient(circle at 20% 20%, rgba(0,255,255,0.12), transparent 25%),
 radial-gradient(circle at 80% 30%, rgba(0,140,255,0.12), transparent 25%),
 radial-gradient(circle at 50% 80%, rgba(0,255,180,0.08), transparent 30%);
 pointer-events:none;
-z-index:-1;
+z-index:1;
 animation:glowMove 8s ease-in-out infinite alternate;
 }
 
@@ -115,7 +118,7 @@ nav,
 .container,
 footer{
 position:relative;
-z-index:1;
+z-index:2;
 }
 
 header{
@@ -488,6 +491,12 @@ height:260px;
 object-fit:cover;
 border-radius:14px;
 display:block;
+cursor:pointer;
+transition:0.25s ease;
+}
+
+.gallery-card img:hover{
+transform:scale(1.02);
 }
 
 .back-btn{
@@ -506,6 +515,43 @@ transition:0.25s;
 .back-btn:hover{
 background:#1d4ed8;
 transform:translateY(-2px);
+}
+
+.lightbox{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.88);
+z-index:999999;
+justify-content:center;
+align-items:center;
+padding:30px;
+cursor:pointer;
+}
+
+.lightbox.active{
+display:flex;
+}
+
+.lightbox img{
+max-width:95%;
+max-height:90vh;
+border-radius:16px;
+box-shadow:0 0 30px rgba(0,0,0,0.6);
+border:1px solid rgba(255,255,255,0.15);
+cursor:default;
+}
+
+.lightbox-close{
+position:absolute;
+top:20px;
+right:24px;
+font-size:40px;
+font-weight:bold;
+color:white;
+cursor:pointer;
+line-height:1;
+user-select:none;
 }
 
 footer{
@@ -639,10 +685,56 @@ document.getElementById("playersList").innerHTML = '<div class="empty-players">O
 }
 }
 
+function openLightbox(src){
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+lightboxImg.src = src;
+lightbox.classList.add("active");
+document.body.style.overflow = "hidden";
+}
+
+function closeLightbox(){
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+lightbox.classList.remove("active");
+lightboxImg.src = "";
+document.body.style.overflow = "auto";
+}
+
+function startBackgroundVideo(){
+const video = document.getElementById("bgVideo");
+if(!video) return;
+
+video.muted = true;
+video.defaultMuted = true;
+video.loop = true;
+video.autoplay = true;
+video.playsInline = true;
+
+const tryPlay = () => {
+video.play().catch(err => {
+console.log("Video oynatılamadı:", err);
+});
+};
+
+video.addEventListener("loadeddata", tryPlay, { once:true });
+video.addEventListener("canplay", tryPlay, { once:true });
+
+setTimeout(tryPlay, 500);
+setTimeout(tryPlay, 1500);
+}
+
+document.addEventListener("keydown", function(e){
+if(e.key === "Escape"){
+closeLightbox();
+}
+});
+
 window.addEventListener("load", () => {
 setTimeout(hideLoading, 1800);
 players();
 setInterval(players, 5000);
+startBackgroundVideo();
 });
 </script>
 </head>
@@ -650,7 +742,7 @@ setInterval(players, 5000);
 <body>
 
 <!-- VIDEO BACKGROUND -->
-<video autoplay muted loop playsinline id="bgVideo">
+<video autoplay muted loop playsinline id="bgVideo" preload="auto">
 <source src="bgvideo.mp4" type="video/mp4">
 </video>
 
@@ -970,15 +1062,15 @@ Türk temalı güçlü bir FiveM roleplay sunucusudur.
 
 <div class="gallery-grid">
 <div class="gallery-card">
-<img src="illegal1.png" alt="Illegal Bölge 1">
+<img src="illegal1.png" alt="Illegal Bölge 1" onclick="openLightbox(this.src)">
 </div>
 
 <div class="gallery-card">
-<img src="illegal2.png" alt="Illegal Bölge 2">
+<img src="illegal2.png" alt="Illegal Bölge 2" onclick="openLightbox(this.src)">
 </div>
 
 <div class="gallery-card">
-<img src="illegal3.png" alt="Illegal Bölge 3">
+<img src="illegal3.png" alt="Illegal Bölge 3" onclick="openLightbox(this.src)">
 </div>
 </div>
 
@@ -1001,6 +1093,11 @@ Türk temalı güçlü bir FiveM roleplay sunucusudur.
 <footer>
 © 2026 Bayraktar Roleplay - TR
 </footer>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+<span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+<img id="lightboxImg" src="" alt="Büyük Görsel" onclick="event.stopPropagation()">
+</div>
 
 </body>
 </html>

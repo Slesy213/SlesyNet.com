@@ -551,6 +551,39 @@ line-height:1;
 user-select:none;
 }
 
+.lightbox-nav{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+font-size:52px;
+font-weight:bold;
+color:white;
+background:rgba(0,0,0,0.28);
+border:1px solid rgba(255,255,255,0.12);
+width:64px;
+height:64px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+user-select:none;
+transition:0.25s;
+}
+
+.lightbox-nav:hover{
+background:rgba(255,255,255,0.12);
+transform:translateY(-50%) scale(1.06);
+}
+
+.lightbox-prev{
+left:20px;
+}
+
+.lightbox-next{
+right:20px;
+}
+
 footer{
 text-align:center;
 padding:22px;
@@ -617,10 +650,31 @@ font-size:25px;
 nav button{
 width:100%;
 }
+
+.lightbox-nav{
+width:52px;
+height:52px;
+font-size:40px;
+}
+
+.lightbox-prev{
+left:10px;
+}
+
+.lightbox-next{
+right:10px;
+}
 }
 </style>
 
 <script>
+let galleryImages = [
+"illegal1.png",
+"illegal2.png",
+"illegal3.png"
+];
+let currentImageIndex = 0;
+
 function showPage(page){
 document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
 document.getElementById(page).classList.add("active");
@@ -683,9 +737,13 @@ document.getElementById("playersList").innerHTML = '<div class="empty-players">O
 }
 
 function openLightbox(src){
+currentImageIndex = galleryImages.indexOf(src.split("/").pop());
+if(currentImageIndex === -1){
+currentImageIndex = 0;
+}
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
-lightboxImg.src = src;
+lightboxImg.src = galleryImages[currentImageIndex];
 lightbox.classList.add("active");
 document.body.style.overflow = "hidden";
 }
@@ -698,9 +756,32 @@ lightboxImg.src = "";
 document.body.style.overflow = "auto";
 }
 
+function nextImage(){
+currentImageIndex++;
+if(currentImageIndex >= galleryImages.length){
+currentImageIndex = 0;
+}
+document.getElementById("lightboxImg").src = galleryImages[currentImageIndex];
+}
+
+function prevImage(){
+currentImageIndex--;
+if(currentImageIndex < 0){
+currentImageIndex = galleryImages.length - 1;
+}
+document.getElementById("lightboxImg").src = galleryImages[currentImageIndex];
+}
+
 document.addEventListener("keydown", function(e){
+const lightbox = document.getElementById("lightbox");
+if(!lightbox.classList.contains("active")) return;
+
 if(e.key === "Escape"){
 closeLightbox();
+}else if(e.key === "ArrowRight"){
+nextImage();
+}else if(e.key === "ArrowLeft"){
+prevImage();
 }
 });
 
@@ -1069,7 +1150,9 @@ Türk temalı güçlü bir FiveM roleplay sunucusudur.
 
 <div id="lightbox" class="lightbox" onclick="closeLightbox()">
 <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+<span class="lightbox-nav lightbox-prev" onclick="event.stopPropagation(); prevImage()">&#10094;</span>
 <img id="lightboxImg" src="" alt="Büyük Görsel" onclick="event.stopPropagation()">
+<span class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); nextImage()">&#10095;</span>
 </div>
 
 </body>

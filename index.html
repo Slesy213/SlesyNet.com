@@ -19,25 +19,25 @@ scroll-behavior:smooth;
 /* VIDEO BACKGROUND */
 #bgVideo{
 position:fixed;
-inset:0;
+top:0;
+left:0;
 width:100vw;
 height:100vh;
-min-width:100%;
-min-height:100%;
 object-fit:cover;
-z-index:-2;
+z-index:0;
 pointer-events:none;
-display:block;
 background:#000;
-opacity:1;
+display:block;
 }
 
+/* OVERLAY */
 body{
 font-family:Arial, sans-serif;
 background:#050a12;
 color:white;
 min-height:100vh;
 overflow-x:hidden;
+position:relative;
 }
 
 body::before{
@@ -50,7 +50,7 @@ radial-gradient(circle at 20% 20%, rgba(0,255,255,0.12), transparent 25%),
 radial-gradient(circle at 80% 30%, rgba(0,140,255,0.12), transparent 25%),
 radial-gradient(circle at 50% 80%, rgba(0,255,180,0.08), transparent 30%);
 pointer-events:none;
-z-index:-1;
+z-index:1;
 animation:glowMove 8s ease-in-out infinite alternate;
 }
 
@@ -119,7 +119,7 @@ nav,
 .container,
 footer{
 position:relative;
-z-index:1;
+z-index:2;
 }
 
 header{
@@ -650,28 +650,20 @@ if(!video) return;
 video.muted = true;
 video.defaultMuted = true;
 video.loop = true;
-video.playsInline = true;
 video.autoplay = true;
-video.setAttribute("muted", "");
-video.setAttribute("autoplay", "");
-video.setAttribute("playsinline", "");
-
-video.src = "./Download.mp4";
-video.load();
+video.playsInline = true;
 
 const tryPlay = () => {
-video.play().then(() => {
-console.log("Arka plan videosu oynuyor.");
-}).catch((err) => {
+video.play().catch(err => {
 console.log("Video oynatılamadı:", err);
 });
 };
 
-video.addEventListener("canplay", tryPlay, { once:true });
 video.addEventListener("loadeddata", tryPlay, { once:true });
+video.addEventListener("canplay", tryPlay, { once:true });
 
-setTimeout(tryPlay, 400);
-setTimeout(tryPlay, 1200);
+setTimeout(tryPlay, 500);
+setTimeout(tryPlay, 1500);
 }
 
 window.addEventListener("load", () => {
@@ -685,7 +677,7 @@ startBackgroundVideo();
 
 <body>
 
-<video id="bgVideo" muted autoplay loop playsinline preload="auto">
+<video id="bgVideo" autoplay muted loop playsinline preload="auto">
 <source src="./Download.mp4" type="video/mp4">
 </video>
 
@@ -1034,7 +1026,7 @@ Türk temalı güçlü bir FiveM roleplay sunucusudur.
 </div>
 
 <footer>
-© 2026 Bayraktar Roleplay - TR
+© 2026 Bayraktar Roleplay - Tüm hakları saklıdır.
 </footer>
 
 </body>

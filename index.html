@@ -780,6 +780,10 @@ currentImageIndex = currentList.length - 1;
 document.getElementById("lightboxImg").src = currentList[currentImageIndex];
 }
 
+function openDiscordScreens(){
+window.open("https://discord.com/channels/1425146860888391722/1425164977228218519", "_blank");
+}
+
 document.addEventListener("keydown", function(e){
 const lightbox = document.getElementById("lightbox");
 
@@ -810,7 +814,6 @@ setInterval(players, 5000);
 
 <body>
 
-<!-- VIDEO BACKGROUND -->
 <video autoplay muted loop playsinline id="bgVideo" preload="auto">
 <source src="bgvideo.mp4" type="video/mp4">
 </video>
@@ -1109,8 +1112,7 @@ Türk temalı güçlü bir FiveM roleplay sunucusudur.
 
 <div class="home-grid">
 <div class="info-mini">
-<h3>🚓 Polis ve Şehir Düzeni</h3>
-<p>Şehirde düzeni koruyan aktif ekipler ve kurallı senaryo yapısı bulunur.</p>
+<button class="page-button" onclick="openDiscordScreens()">📸 Discord Oyundan Kareler</button>
 </div>
 
 <div class="info-mini">
